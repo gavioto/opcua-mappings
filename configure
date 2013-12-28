@@ -633,8 +633,6 @@ ac_subst_vars='am__EXEEXT_FALSE
 am__EXEEXT_TRUE
 LTLIBOBJS
 LIBOBJS
-GMOCK_INCLUDES
-GMOCK_LIBS
 GTEST_INCLUDES
 GTEST_MAIN_LIB
 GTEST_LIB
@@ -765,7 +763,6 @@ with_gnu_ld
 with_sysroot
 enable_libtool_lock
 with_gtest
-with_gmock
 '
       ac_precious_vars='build_alias
 host_alias
@@ -1413,7 +1410,6 @@ Optional Packages:
   --with-sysroot=DIR Search for dependent libraries within DIR
                         (or the compiler's sysroot if not specified).
   --with-gtest=DIR        defines path to gtest root directory
-  --with-gmock=DIR        defines path to gmock root directory
 
 Some influential environment variables:
   CC          C compiler command
@@ -15001,19 +14997,12 @@ if test "${with_gtest+set}" = set; then :
               { $as_echo "$as_me:${as_lineno-$LINENO}: Gtest path: $GTEST_INCLUDES" >&5
 $as_echo "$as_me: Gtest path: $GTEST_INCLUDES" >&6;}
 
-fi
+else
 
+              GTEST_LIB=-lgtest
 
+              GTEST_MAIN_LIB=-lgtest_main
 
-# Check whether --with-gmock was given.
-if test "${with_gmock+set}" = set; then :
-  withval=$with_gmock;
-              GMOCK_LIBS=-Wl,--whole-archive,$with_gmock/lib/.libs/libgmock.a,--no-whole-archive
-
-              GMOCK_INCLUDES=-I$with_gmock/include
-
-              { $as_echo "$as_me:${as_lineno-$LINENO}: Gmock path: $GMOCK_INCLUDES" >&5
-$as_echo "$as_me: Gmock path: $GMOCK_INCLUDES" >&6;}
 
 fi
 

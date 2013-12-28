@@ -8,7 +8,7 @@
 /// http://www.gnu.org/licenses/lgpl.html)
 ///
 
-#include <gmock/gmock.h>
+//#include <gmock/gmock.h>
 #include <gtest/gtest.h>
 #include <opc/ua/message_identifiers.h>
 #include <opc/ua/protocol/binary/stream.h>
