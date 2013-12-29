@@ -12,11 +12,16 @@
 
 opcincludedir = $(includedir)/opc
 opcuaincludedir = $(opcincludedir)/ua
+protocolincludedir = $(opcuaincludedir)/protocol
+binaryincludedir = $(protocolincludedir)/binary
 
-opcuainclude_HEADERS = \
-  include/opc/ua/protocol/attribute.h \
+
+binaryinclude_HEADERS = \
   include/opc/ua/protocol/binary/stream.h \
-  include/opc/ua/protocol/binary/common.h \
+  include/opc/ua/protocol/binary/common.h
+
+protocolinclude_HEADERS = \
+  include/opc/ua/protocol/attribute.h \
   include/opc/ua/protocol/data_value.h \
   include/opc/ua/protocol/datetime.h \
   include/opc/ua/protocol/endpoints.h \
@@ -28,8 +33,11 @@ opcuainclude_HEADERS = \
   include/opc/ua/protocol/subscriptions.h \
   include/opc/ua/protocol/types.h \
   include/opc/ua/protocol/variant.h \
-  include/opc/ua/protocol/view.h \
+  include/opc/ua/protocol/view.h
+
+opcuainclude_HEADERS = \
   include/opc/ua/describe.h \
+  include/opc/ua/channel.h \
   include/opc/ua/extension_identifiers.h \
   include/opc/ua/attribute_ids.h \
   include/opc/ua/message_identifiers.h \

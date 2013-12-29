@@ -65,7 +65,8 @@ host_triplet = @host@
 TESTS = opc_ua_binary_test$(EXEEXT)
 check_PROGRAMS = $(am__EXEEXT_1)
 subdir = .
-DIST_COMMON = README $(am__configure_deps) $(opcuainclude_HEADERS) \
+DIST_COMMON = README $(am__configure_deps) $(binaryinclude_HEADERS) \
+	$(opcuainclude_HEADERS) $(protocolinclude_HEADERS) \
 	$(srcdir)/Makefile.am $(srcdir)/Makefile.in \
 	$(srcdir)/config.h.in $(top_srcdir)/configure AUTHORS COPYING \
 	ChangeLog INSTALL NEWS config.guess config.sub depcomp \
@@ -107,7 +108,9 @@ am__uninstall_files_from_dir = { \
     || { echo " ( cd '$$dir' && rm -f" $$files ")"; \
          $(am__cd) "$$dir" && rm -f $$files; }; \
   }
-am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(opcuaincludedir)"
+am__installdirs = "$(DESTDIR)$(libdir)" \
+	"$(DESTDIR)$(binaryincludedir)" "$(DESTDIR)$(opcuaincludedir)" \
+	"$(DESTDIR)$(protocolincludedir)"
 LTLIBRARIES = $(lib_LTLIBRARIES)
 libopcuabinary_la_LIBADD =
 am_libopcuabinary_la_OBJECTS = libopcuabinary_la-binary_variant.lo \
@@ -173,7 +176,8 @@ am__can_run_installinfo = \
     n|no|NO) false;; \
     *) (install-info --version) >/dev/null 2>&1;; \
   esac
-HEADERS = $(opcuainclude_HEADERS)
+HEADERS = $(binaryinclude_HEADERS) $(opcuainclude_HEADERS) \
+	$(protocolinclude_HEADERS)
 ETAGS = etags
 CTAGS = ctags
 am__tty_colors = \
@@ -316,10 +320,14 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 opcincludedir = $(includedir)/opc
 opcuaincludedir = $(opcincludedir)/ua
-opcuainclude_HEADERS = \
-  include/opc/ua/protocol/attribute.h \
+protocolincludedir = $(opcuaincludedir)/protocol
+binaryincludedir = $(protocolincludedir)/binary
+binaryinclude_HEADERS = \
   include/opc/ua/protocol/binary/stream.h \
-  include/opc/ua/protocol/binary/common.h \
+  include/opc/ua/protocol/binary/common.h
+
+protocolinclude_HEADERS = \
+  include/opc/ua/protocol/attribute.h \
   include/opc/ua/protocol/data_value.h \
   include/opc/ua/protocol/datetime.h \
   include/opc/ua/protocol/endpoints.h \
@@ -331,8 +339,11 @@ opcuainclude_HEADERS = \
   include/opc/ua/protocol/subscriptions.h \
   include/opc/ua/protocol/types.h \
   include/opc/ua/protocol/variant.h \
-  include/opc/ua/protocol/view.h \
+  include/opc/ua/protocol/view.h
+
+opcuainclude_HEADERS = \
   include/opc/ua/describe.h \
+  include/opc/ua/channel.h \
   include/opc/ua/extension_identifiers.h \
   include/opc/ua/attribute_ids.h \
   include/opc/ua/message_identifiers.h \
@@ -823,6 +834,27 @@ clean-libtool:
 
 distclean-libtool:
 	-rm -f libtool config.lt
+install-binaryincludeHEADERS: $(binaryinclude_HEADERS)
+	@$(NORMAL_INSTALL)
+	@list='$(binaryinclude_HEADERS)'; test -n "$(binaryincludedir)" || list=; \
+	if test -n "$$list"; then \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(binaryincludedir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(binaryincludedir)" || exit 1; \
+	fi; \
+	for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  echo "$$d$$p"; \
+	done | $(am__base_list) | \
+	while read files; do \
+	  echo " $(INSTALL_HEADER) $$files '$(DESTDIR)$(binaryincludedir)'"; \
+	  $(INSTALL_HEADER) $$files "$(DESTDIR)$(binaryincludedir)" || exit $$?; \
+	done
+
+uninstall-binaryincludeHEADERS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(binaryinclude_HEADERS)'; test -n "$(binaryincludedir)" || list=; \
+	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
+	dir='$(DESTDIR)$(binaryincludedir)'; $(am__uninstall_files_from_dir)
 install-opcuaincludeHEADERS: $(opcuainclude_HEADERS)
 	@$(NORMAL_INSTALL)
 	@list='$(opcuainclude_HEADERS)'; test -n "$(opcuaincludedir)" || list=; \
@@ -844,6 +876,27 @@ uninstall-opcuaincludeHEADERS:
 	@list='$(opcuainclude_HEADERS)'; test -n "$(opcuaincludedir)" || list=; \
 	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
 	dir='$(DESTDIR)$(opcuaincludedir)'; $(am__uninstall_files_from_dir)
+install-protocolincludeHEADERS: $(protocolinclude_HEADERS)
+	@$(NORMAL_INSTALL)
+	@list='$(protocolinclude_HEADERS)'; test -n "$(protocolincludedir)" || list=; \
+	if test -n "$$list"; then \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(protocolincludedir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(protocolincludedir)" || exit 1; \
+	fi; \
+	for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  echo "$$d$$p"; \
+	done | $(am__base_list) | \
+	while read files; do \
+	  echo " $(INSTALL_HEADER) $$files '$(DESTDIR)$(protocolincludedir)'"; \
+	  $(INSTALL_HEADER) $$files "$(DESTDIR)$(protocolincludedir)" || exit $$?; \
+	done
+
+uninstall-protocolincludeHEADERS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(protocolinclude_HEADERS)'; test -n "$(protocolincludedir)" || list=; \
+	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
+	dir='$(DESTDIR)$(protocolincludedir)'; $(am__uninstall_files_from_dir)
 
 ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
 	list='$(SOURCES) $(HEADERS) $(LISP) $(TAGS_FILES)'; \
@@ -1158,7 +1211,7 @@ check-am: all-am
 check: check-am
 all-am: Makefile $(LTLIBRARIES) $(HEADERS) config.h
 installdirs:
-	for dir in "$(DESTDIR)$(libdir)" "$(DESTDIR)$(opcuaincludedir)"; do \
+	for dir in "$(DESTDIR)$(libdir)" "$(DESTDIR)$(binaryincludedir)" "$(DESTDIR)$(opcuaincludedir)" "$(DESTDIR)$(protocolincludedir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: install-am
@@ -1215,7 +1268,8 @@ info: info-am
 
 info-am:
 
-install-data-am: install-opcuaincludeHEADERS
+install-data-am: install-binaryincludeHEADERS \
+	install-opcuaincludeHEADERS install-protocolincludeHEADERS
 
 install-dvi: install-dvi-am
 
@@ -1263,7 +1317,8 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-libLTLIBRARIES uninstall-opcuaincludeHEADERS
+uninstall-am: uninstall-binaryincludeHEADERS uninstall-libLTLIBRARIES \
+	uninstall-opcuaincludeHEADERS uninstall-protocolincludeHEADERS
 
 .MAKE: all check-am install-am install-strip
 
@@ -1274,16 +1329,19 @@ uninstall-am: uninstall-libLTLIBRARIES uninstall-opcuaincludeHEADERS
 	distcheck distclean distclean-compile distclean-generic \
 	distclean-hdr distclean-libtool distclean-tags distcleancheck \
 	distdir distuninstallcheck dvi dvi-am html html-am info \
-	info-am install install-am install-data install-data-am \
-	install-dvi install-dvi-am install-exec install-exec-am \
-	install-html install-html-am install-info install-info-am \
-	install-libLTLIBRARIES install-man install-opcuaincludeHEADERS \
-	install-pdf install-pdf-am install-ps install-ps-am \
-	install-strip installcheck installcheck-am installdirs \
-	maintainer-clean maintainer-clean-generic mostlyclean \
-	mostlyclean-compile mostlyclean-generic mostlyclean-libtool \
-	pdf pdf-am ps ps-am tags uninstall uninstall-am \
-	uninstall-libLTLIBRARIES uninstall-opcuaincludeHEADERS
+	info-am install install-am install-binaryincludeHEADERS \
+	install-data install-data-am install-dvi install-dvi-am \
+	install-exec install-exec-am install-html install-html-am \
+	install-info install-info-am install-libLTLIBRARIES \
+	install-man install-opcuaincludeHEADERS install-pdf \
+	install-pdf-am install-protocolincludeHEADERS install-ps \
+	install-ps-am install-strip installcheck installcheck-am \
+	installdirs maintainer-clean maintainer-clean-generic \
+	mostlyclean mostlyclean-compile mostlyclean-generic \
+	mostlyclean-libtool pdf pdf-am ps ps-am tags uninstall \
+	uninstall-am uninstall-binaryincludeHEADERS \
+	uninstall-libLTLIBRARIES uninstall-opcuaincludeHEADERS \
+	uninstall-protocolincludeHEADERS
 
 
 dist-deb:
