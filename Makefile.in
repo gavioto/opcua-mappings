@@ -26,6 +26,7 @@
 # $Revision: $
 
 
+
 VPATH = @srcdir@
 am__make_dryrun = \
   { \
@@ -68,9 +69,9 @@ subdir = .
 DIST_COMMON = README $(am__configure_deps) $(binaryinclude_HEADERS) \
 	$(opcuainclude_HEADERS) $(protocolinclude_HEADERS) \
 	$(srcdir)/Makefile.am $(srcdir)/Makefile.in \
-	$(srcdir)/config.h.in $(top_srcdir)/configure AUTHORS COPYING \
-	ChangeLog INSTALL NEWS config.guess config.sub depcomp \
-	install-sh ltmain.sh missing
+	$(srcdir)/config.h.in $(srcdir)/libopcuabinary.pc.in \
+	$(top_srcdir)/configure AUTHORS COPYING ChangeLog INSTALL NEWS \
+	config.guess config.sub depcomp install-sh ltmain.sh missing
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
@@ -79,7 +80,7 @@ am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
  configure.lineno config.status.lineno
 mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = config.h
-CONFIG_CLEAN_FILES =
+CONFIG_CLEAN_FILES = libopcuabinary.pc
 CONFIG_CLEAN_VPATH_FILES =
 am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
 am__vpath_adj = case $$p in \
@@ -108,8 +109,9 @@ am__uninstall_files_from_dir = { \
     || { echo " ( cd '$$dir' && rm -f" $$files ")"; \
          $(am__cd) "$$dir" && rm -f $$files; }; \
   }
-am__installdirs = "$(DESTDIR)$(libdir)" \
-	"$(DESTDIR)$(binaryincludedir)" "$(DESTDIR)$(opcuaincludedir)" \
+am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(pkgconfigdir)" \
+	"$(DESTDIR)$(pkgsharedir)" "$(DESTDIR)$(binaryincludedir)" \
+	"$(DESTDIR)$(opcuaincludedir)" \
 	"$(DESTDIR)$(protocolincludedir)"
 LTLIBRARIES = $(lib_LTLIBRARIES)
 libopcuabinary_la_LIBADD =
@@ -176,6 +178,7 @@ am__can_run_installinfo = \
     n|no|NO) false;; \
     *) (install-info --version) >/dev/null 2>&1;; \
   esac
+DATA = $(pkgconfig_DATA) $(pkgshare_DATA)
 HEADERS = $(binaryinclude_HEADERS) $(opcuainclude_HEADERS) \
 	$(protocolinclude_HEADERS)
 ETAGS = etags
@@ -391,6 +394,11 @@ opc_ua_binary_test_SOURCES = \
 opc_ua_binary_test_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/include -I$(top_srcdir)/../../libopccore/include $(GTEST_INCLUDES) $(GMOCK_INCLUDES)
 opc_ua_binary_test_LDADD = libopcuabinary.la
 opc_ua_binary_test_LDFLAGS = -lpthread -Wl,-z,defs $(GTEST_LIB) $(GTEST_MAIN_LIB) 
+pkgsharedir = $(libdir)/pkgconfig
+pkgshare_DATA = libopcuabinary.pc
+pkgconfigdir = $(datarootdir)/pkgconfig
+pkgconfig_DATA = libopcuabinary.pc
+EXTRA_DIST = debian make_deb.sh
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-am
 
@@ -445,6 +453,8 @@ $(srcdir)/config.h.in:  $(am__configure_deps)
 
 distclean-hdr:
 	-rm -f config.h stamp-h1
+libopcuabinary.pc: $(top_builddir)/config.status $(srcdir)/libopcuabinary.pc.in
+	cd $(top_builddir) && $(SHELL) ./config.status $@
 install-libLTLIBRARIES: $(lib_LTLIBRARIES)
 	@$(NORMAL_INSTALL)
 	@list='$(lib_LTLIBRARIES)'; test -n "$(libdir)" || list=; \
@@ -834,6 +844,48 @@ clean-libtool:
 
 distclean-libtool:
 	-rm -f libtool config.lt
+install-pkgconfigDATA: $(pkgconfig_DATA)
+	@$(NORMAL_INSTALL)
+	@list='$(pkgconfig_DATA)'; test -n "$(pkgconfigdir)" || list=; \
+	if test -n "$$list"; then \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(pkgconfigdir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(pkgconfigdir)" || exit 1; \
+	fi; \
+	for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  echo "$$d$$p"; \
+	done | $(am__base_list) | \
+	while read files; do \
+	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(pkgconfigdir)'"; \
+	  $(INSTALL_DATA) $$files "$(DESTDIR)$(pkgconfigdir)" || exit $$?; \
+	done
+
+uninstall-pkgconfigDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(pkgconfig_DATA)'; test -n "$(pkgconfigdir)" || list=; \
+	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
+	dir='$(DESTDIR)$(pkgconfigdir)'; $(am__uninstall_files_from_dir)
+install-pkgshareDATA: $(pkgshare_DATA)
+	@$(NORMAL_INSTALL)
+	@list='$(pkgshare_DATA)'; test -n "$(pkgsharedir)" || list=; \
+	if test -n "$$list"; then \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(pkgsharedir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(pkgsharedir)" || exit 1; \
+	fi; \
+	for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  echo "$$d$$p"; \
+	done | $(am__base_list) | \
+	while read files; do \
+	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(pkgsharedir)'"; \
+	  $(INSTALL_DATA) $$files "$(DESTDIR)$(pkgsharedir)" || exit $$?; \
+	done
+
+uninstall-pkgshareDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(pkgshare_DATA)'; test -n "$(pkgsharedir)" || list=; \
+	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
+	dir='$(DESTDIR)$(pkgsharedir)'; $(am__uninstall_files_from_dir)
 install-binaryincludeHEADERS: $(binaryinclude_HEADERS)
 	@$(NORMAL_INSTALL)
 	@list='$(binaryinclude_HEADERS)'; test -n "$(binaryincludedir)" || list=; \
@@ -1209,9 +1261,9 @@ check-am: all-am
 	$(MAKE) $(AM_MAKEFLAGS) $(check_PROGRAMS)
 	$(MAKE) $(AM_MAKEFLAGS) check-TESTS
 check: check-am
-all-am: Makefile $(LTLIBRARIES) $(HEADERS) config.h
+all-am: Makefile $(LTLIBRARIES) $(DATA) $(HEADERS) config.h
 installdirs:
-	for dir in "$(DESTDIR)$(libdir)" "$(DESTDIR)$(binaryincludedir)" "$(DESTDIR)$(opcuaincludedir)" "$(DESTDIR)$(protocolincludedir)"; do \
+	for dir in "$(DESTDIR)$(libdir)" "$(DESTDIR)$(pkgconfigdir)" "$(DESTDIR)$(pkgsharedir)" "$(DESTDIR)$(binaryincludedir)" "$(DESTDIR)$(opcuaincludedir)" "$(DESTDIR)$(protocolincludedir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: install-am
@@ -1247,7 +1299,7 @@ maintainer-clean-generic:
 clean: clean-am
 
 clean-am: clean-checkPROGRAMS clean-generic clean-libLTLIBRARIES \
-	clean-libtool mostlyclean-am
+	clean-libtool clean-local mostlyclean-am
 
 distclean: distclean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
@@ -1269,7 +1321,8 @@ info: info-am
 info-am:
 
 install-data-am: install-binaryincludeHEADERS \
-	install-opcuaincludeHEADERS install-protocolincludeHEADERS
+	install-opcuaincludeHEADERS install-pkgconfigDATA \
+	install-pkgshareDATA install-protocolincludeHEADERS
 
 install-dvi: install-dvi-am
 
@@ -1318,37 +1371,40 @@ ps: ps-am
 ps-am:
 
 uninstall-am: uninstall-binaryincludeHEADERS uninstall-libLTLIBRARIES \
-	uninstall-opcuaincludeHEADERS uninstall-protocolincludeHEADERS
+	uninstall-opcuaincludeHEADERS uninstall-pkgconfigDATA \
+	uninstall-pkgshareDATA uninstall-protocolincludeHEADERS
 
 .MAKE: all check-am install-am install-strip
 
 .PHONY: CTAGS GTAGS all all-am am--refresh check check-TESTS check-am \
 	clean clean-checkPROGRAMS clean-generic clean-libLTLIBRARIES \
-	clean-libtool ctags dist dist-all dist-bzip2 dist-gzip \
-	dist-lzip dist-lzma dist-shar dist-tarZ dist-xz dist-zip \
-	distcheck distclean distclean-compile distclean-generic \
-	distclean-hdr distclean-libtool distclean-tags distcleancheck \
-	distdir distuninstallcheck dvi dvi-am html html-am info \
-	info-am install install-am install-binaryincludeHEADERS \
-	install-data install-data-am install-dvi install-dvi-am \
-	install-exec install-exec-am install-html install-html-am \
-	install-info install-info-am install-libLTLIBRARIES \
-	install-man install-opcuaincludeHEADERS install-pdf \
-	install-pdf-am install-protocolincludeHEADERS install-ps \
+	clean-libtool clean-local ctags dist dist-all dist-bzip2 \
+	dist-gzip dist-lzip dist-lzma dist-shar dist-tarZ dist-xz \
+	dist-zip distcheck distclean distclean-compile \
+	distclean-generic distclean-hdr distclean-libtool \
+	distclean-tags distcleancheck distdir distuninstallcheck dvi \
+	dvi-am html html-am info info-am install install-am \
+	install-binaryincludeHEADERS install-data install-data-am \
+	install-dvi install-dvi-am install-exec install-exec-am \
+	install-html install-html-am install-info install-info-am \
+	install-libLTLIBRARIES install-man install-opcuaincludeHEADERS \
+	install-pdf install-pdf-am install-pkgconfigDATA \
+	install-pkgshareDATA install-protocolincludeHEADERS install-ps \
 	install-ps-am install-strip installcheck installcheck-am \
 	installdirs maintainer-clean maintainer-clean-generic \
 	mostlyclean mostlyclean-compile mostlyclean-generic \
 	mostlyclean-libtool pdf pdf-am ps ps-am tags uninstall \
 	uninstall-am uninstall-binaryincludeHEADERS \
 	uninstall-libLTLIBRARIES uninstall-opcuaincludeHEADERS \
+	uninstall-pkgconfigDATA uninstall-pkgshareDATA \
 	uninstall-protocolincludeHEADERS
 
 
+clean-local:
+	rm -rvf opcuamappings*$(VERSION)* 
+
 dist-deb:
-	mkdir ./debian/usr/lib -p -m 755
-	cp ./.libs/libopcuabinary.so ./debian/usr/lib
-	cp ./.libs/libopcuabinary.so.0 ./debian/usr/lib
-	cp ./.libs/libopcuabinary.so.0.0.0 ./debian/usr/lib
+	$(top_srcdir)/make_deb.sh
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

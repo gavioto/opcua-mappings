@@ -9,8 +9,7 @@
 AC_INIT
 AC_CONFIG_AUX_DIR([.])
 AC_CONFIG_SRCDIR([src/binary_stream.cpp])
-AM_INIT_AUTOMAKE([libopcopcmappings], [0.1.2], [rykovanov.as@gmail.com])
-LT_INIT([disable-static])
+AM_INIT_AUTOMAKE([opcuamappings], [0.1.2], [rykovanov.as@gmail.com])
 
 CXXFLAGS="-O0 -g -Wall -std=c++0x"
 
@@ -38,7 +37,7 @@ AC_ARG_WITH([gtest],
 AC_CHECK_HEADERS([unistd.h])
 
 #################################################################
-AC_CONFIG_FILES([Makefile])
+AC_CONFIG_FILES([Makefile libopcuabinary.pc])
 
 AC_OUTPUT
 

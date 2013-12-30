@@ -1,0 +1,21 @@
+Source: opcuamappings
+Priority: extra
+Maintainer: treww <rykovanov.as@gmail.com>
+Build-Depends: debhelper (>= 8.0.0), autotools-dev
+Standards-Version: 3.9.4
+Section: libs
+Homepage: https://github.com/treww/opcua-mappings
+Vcs-Git: https://github.com/treww/opcua-mappings.git
+
+Package: opcuamappings-dev
+Section: libdevel
+Architecture: any
+Depends: opcuamappings (= ${binary:Version})
+Description: OPCUA protocol developer files.
+
+Package: opcuamappings
+Section: libs
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: OPCUA protocols.
+
