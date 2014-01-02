@@ -6,14 +6,15 @@
 # http://www.gnu.org/licenses/lgpl.html)
 #
 
-AC_INIT
+AC_INIT([opcuamappings], [0.1.2], [rykovanov.as@gmail.com])
 AC_CONFIG_AUX_DIR([.])
 AC_CONFIG_SRCDIR([src/binary_stream.cpp])
-AM_INIT_AUTOMAKE([opcuamappings], [0.1.2], [rykovanov.as@gmail.com])
+AM_INIT_AUTOMAKE([-Wall -Werror])
 
 CXXFLAGS="-O0 -g -Wall -std=c++0x"
 
 AC_PROG_CXX
+AM_PROG_AR
 AC_PROG_LIBTOOL
 
 AC_CONFIG_MACRO_DIR([m4])
