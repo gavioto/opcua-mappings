@@ -14,6 +14,7 @@
 
 #include <algorithm>
 #include <stdexcept>
+#include <sstream>
 #include <sys/time.h>
 
 namespace OpcUa
@@ -149,7 +150,9 @@ namespace OpcUa
     const int64_t secsFrom1600To1970 = 11676096000LL;
     if (dateTime.Value < secsFrom1600To1970)
     {
-      return 0;
+      std::stringstream stream;
+      stream << "OpcUa date time cannot be less than " << secsFrom1600To1970;
+      throw std::invalid_argument(stream.str());
     }
     const int64_t secsFrom1970 = dateTime.Value / 10000000LL - secsFrom1600To1970;
     return secsFrom1970;

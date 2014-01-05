@@ -36,11 +36,10 @@ TEST(DateTime, FromDateTime)
   ASSERT_EQ(t/10000000LL*10000000LL, converted);
 }
 
-TEST(DateTime, ZeroToTimeT)
+TEST(DateTime, ZeroToTimeT_ThrowInvalidArgument)
 {
   DateTime t(0);
-  const time_t converted = OpcUa::ToTimeT(t);
-  ASSERT_EQ(converted, 0);
+  ASSERT_THROW(OpcUa::ToTimeT(t), std::invalid_argument);
 }
 
 TEST(DateTime, ZeroTimeT)
