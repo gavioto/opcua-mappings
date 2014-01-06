@@ -1,6 +1,6 @@
 Source: opcuamappings
 Priority: extra
-Maintainer: treww <rykovanov.as@gmail.com>
+Maintainer: Alexander Rykovanov <rykovanov.as@gmail.com>
 Build-Depends: debhelper (>= 8.0.0), autotools-dev
 Standards-Version: 3.9.4
 Section: libs
@@ -9,13 +9,13 @@ Vcs-Git: https://github.com/treww/opcua-mappings.git
 
 Package: opcuamappings-dev
 Section: libdevel
-Architecture: any
+Architecture: amd64 i386
 Depends: opcuamappings (= ${binary:Version})
 Description: OPCUA protocol developer files.
 
 Package: opcuamappings
 Section: libs
-Architecture: any
+Architecture: amd64 i386
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: OPCUA protocols.
 
