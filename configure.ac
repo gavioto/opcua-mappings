@@ -6,7 +6,7 @@
 # http://www.gnu.org/licenses/lgpl.html)
 #
 
-AC_INIT([opcuamappings], [0.1.2], [rykovanov.as@gmail.com])
+AC_INIT([opcuamappings], [0.2.0], [rykovanov.as@gmail.com])
 AC_CONFIG_AUX_DIR([.])
 AC_CONFIG_SRCDIR([src/binary_stream.cpp])
 AM_INIT_AUTOMAKE([-Wall -Werror])
@@ -34,11 +34,14 @@ AC_ARG_WITH([gtest],
               AC_SUBST([GTEST_MAIN_LIB], [-lgtest_main])
             ])
 
+AC_SUBST([RELEASE_DATE], [$(date -R)])
+
 #check headers
 AC_CHECK_HEADERS([unistd.h])
 
+
 #################################################################
-AC_CONFIG_FILES([Makefile libopcuabinary.pc])
+AC_CONFIG_FILES([Makefile libopcuabinary.pc debian/changelog])
 
 AC_OUTPUT
 

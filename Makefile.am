@@ -104,6 +104,6 @@ EXTRA_DIST = debian make_deb.sh
 clean-local:
 	rm -rvf opcuamappings*$(VERSION)* 
 
-dist-deb:
-	$(top_srcdir)/make_deb.sh
+dist-deb: dist
+	VERSION=$(VERSION) $(top_srcdir)/make_deb.sh
 
