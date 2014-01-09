@@ -70,9 +70,9 @@ DIST_COMMON = README $(am__configure_deps) $(binaryinclude_HEADERS) \
 	$(opcuainclude_HEADERS) $(protocolinclude_HEADERS) \
 	$(srcdir)/Makefile.am $(srcdir)/Makefile.in \
 	$(srcdir)/config.h.in $(srcdir)/libopcuabinary.pc.in \
-	$(top_srcdir)/configure AUTHORS COPYING ChangeLog INSTALL NEWS \
-	ar-lib config.guess config.sub depcomp install-sh ltmain.sh \
-	missing
+	$(top_srcdir)/configure $(top_srcdir)/debian/changelog.in \
+	AUTHORS COPYING ChangeLog INSTALL NEWS ar-lib config.guess \
+	config.sub depcomp install-sh ltmain.sh missing
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
@@ -81,7 +81,7 @@ am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
  configure.lineno config.status.lineno
 mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = config.h
-CONFIG_CLEAN_FILES = libopcuabinary.pc
+CONFIG_CLEAN_FILES = libopcuabinary.pc debian/changelog
 CONFIG_CLEAN_VPATH_FILES =
 am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
 am__vpath_adj = case $$p in \
@@ -264,6 +264,7 @@ PACKAGE_URL = @PACKAGE_URL@
 PACKAGE_VERSION = @PACKAGE_VERSION@
 PATH_SEPARATOR = @PATH_SEPARATOR@
 RANLIB = @RANLIB@
+RELEASE_DATE = @RELEASE_DATE@
 SED = @SED@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
@@ -455,6 +456,8 @@ $(srcdir)/config.h.in:  $(am__configure_deps)
 distclean-hdr:
 	-rm -f config.h stamp-h1
 libopcuabinary.pc: $(top_builddir)/config.status $(srcdir)/libopcuabinary.pc.in
+	cd $(top_builddir) && $(SHELL) ./config.status $@
+debian/changelog: $(top_builddir)/config.status $(top_srcdir)/debian/changelog.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
 install-libLTLIBRARIES: $(lib_LTLIBRARIES)
 	@$(NORMAL_INSTALL)
@@ -1404,8 +1407,11 @@ uninstall-am: uninstall-binaryincludeHEADERS uninstall-libLTLIBRARIES \
 clean-local:
 	rm -rvf opcuamappings*$(VERSION)* 
 
-dist-deb:
-	$(top_srcdir)/make_deb.sh
+dist-deb: dist
+	tar -xvf opcuamappings-$(VERSION).tar.gz
+	cd opcuamappings-$(VERSION)
+	./configure
+	dpkg-buildpackage -rfakeroot -nc
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

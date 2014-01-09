@@ -104,6 +104,9 @@ EXTRA_DIST = debian make_deb.sh
 clean-local:
 	rm -rvf opcuamappings*$(VERSION)* 
 
-dist-deb:
-	$(top_srcdir)/make_deb.sh
+dist-deb: dist
+	tar -xvf opcuamappings-$(VERSION).tar.gz
+	cd opcuamappings-$(VERSION)
+	./configure
+	dpkg-buildpackage -rfakeroot -nc
 
