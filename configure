@@ -15186,6 +15186,9 @@ else
 fi
 
 
+RELEASE_DATE=$(date -R)
+
+
 #check headers
 for ac_header in unistd.h
 do :
@@ -15199,8 +15202,6 @@ fi
 
 done
 
-
-RELEASE_DATE=$(date -R)
 
 
 #################################################################

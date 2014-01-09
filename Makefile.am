@@ -99,15 +99,11 @@ pkgshare_DATA = libopcuabinary.pc
 pkgconfigdir = $(datarootdir)/pkgconfig
 pkgconfig_DATA = libopcuabinary.pc
 
-EXTRA_DIST = debian
+EXTRA_DIST = debian make_deb.sh
 
 clean-local:
 	rm -rvf opcuamappings*$(VERSION)* 
 
-dist-deb:
-	dpkg-buildpackage -rfakeroot -nc
-
-#	tar -xvf opcuamappings-$(VERSION).tar.gz
-#	cd opcuamappings-$(VERSION)
-#	./configure
+dist-deb: dist
+	VERSION=$(VERSION) $(top_srcdir)/make_deb.sh
 

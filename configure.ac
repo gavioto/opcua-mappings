@@ -34,10 +34,11 @@ AC_ARG_WITH([gtest],
               AC_SUBST([GTEST_MAIN_LIB], [-lgtest_main])
             ])
 
+AC_SUBST([RELEASE_DATE], [$(date -R)])
+
 #check headers
 AC_CHECK_HEADERS([unistd.h])
 
-AC_SUBST([RELEASE_DATE], [$(date -R)])
 
 #################################################################
 AC_CONFIG_FILES([Makefile libopcuabinary.pc debian/changelog])
