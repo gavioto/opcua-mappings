@@ -167,6 +167,8 @@ namespace OpcUa
     NodeID TypeID;
     RequestHeader Header;
     TranslateBrowsePathsParameters Parameters;
+
+    TranslateBrowsePathsToNodeIDsRequest();
   };
 
   //---------------------------------------------------

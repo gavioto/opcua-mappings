@@ -55,6 +55,12 @@ namespace OpcUa
   {
   }
 
+  TranslateBrowsePathsToNodeIDsRequest::TranslateBrowsePathsToNodeIDsRequest()
+    : TypeID(TRANSLATE_BROWSE_PATHS_TO_NODE_IDS_REQUEST)
+  {
+  }
+
+
   ReferenceDescription::ReferenceDescription()
     : IsForward(false)
     , TargetNodeClass(NodeClass::All)
@@ -465,7 +471,7 @@ namespace OpcUa
     }
 
     ////////////////////////////////////////////////////////////////////
-    // BrowsePathTarget
+    // BrowsePathResult
     ////////////////////////////////////////////////////////////////////
 
     template<>
@@ -549,6 +555,145 @@ namespace OpcUa
       *this >> response.Header;
       *this >> response.Result;
     }
+
+
+    ////////////////////////////////////////////////////////////////////
+    // TranslateBrowsePathsParameters
+    ////////////////////////////////////////////////////////////////////
+
+    template<>
+    std::size_t RawSize<RelativePathElement>(const RelativePathElement& element)
+    {
+      return RawSize(element.IncludeSubtypes) + RawSize(element.IsInverse) + RawSize(element.ReferenceTypeID) + RawSize(element.TargetName);
+    }
+
+    template<>
+    std::size_t RawSize<RelativePath>(const RelativePath& rpath)
+    {
+      return RawSizeContainer(rpath.Elements);
+    }
+
+    template<>
+    std::size_t RawSize<BrowsePath>(const BrowsePath& path)
+    {
+      return RawSize(path.StartingNode) + RawSize(path.Path);
+    }
+
+    template<>
+    std::size_t RawSize<TranslateBrowsePathsParameters>(const TranslateBrowsePathsParameters& params)
+    {
+      return RawSizeContainer(params.BrowsePaths);
+    }
+
+    template<>
+    void DataDeserializer::Deserialize<RelativePathElement>(RelativePathElement& path)
+    {
+      *this >> path.ReferenceTypeID;
+      *this >> path.IsInverse;
+      *this >> path.IncludeSubtypes;
+      *this >> path.TargetName;
+    }
+
+    template<>
+    void DataSerializer::Serialize<RelativePathElement>(const RelativePathElement& path)
+    {
+      *this << path.ReferenceTypeID;
+      *this << path.IsInverse;
+      *this << path.IncludeSubtypes;
+      *this << path.TargetName;
+    }
+
+
+
+    template<>
+    void DataDeserializer::Deserialize<std::vector<RelativePathElement>>(std::vector<RelativePathElement>& targets)
+    {
+      DeserializeContainer(*this, targets);
+    }
+
+
+    template<>
+    void DataSerializer::Serialize<std::vector<RelativePathElement>>( const std::vector<RelativePathElement>& targets)
+    {
+      SerializeContainer(*this, targets);
+    }
+
+
+    template<>
+    void DataDeserializer::Deserialize<RelativePath>(RelativePath& path)
+    {
+      *this >> path.Elements;
+    }
+
+    template<>
+    void DataSerializer::Serialize<RelativePath>(const RelativePath& path)
+    {
+      *this << path.Elements;
+    }
+
+
+
+
+    template<>
+    void DataDeserializer::Deserialize<BrowsePath>(BrowsePath& path)
+    {
+      *this >> path.StartingNode;
+      *this >> path.Path;
+    }
+
+    template<>
+    void DataSerializer::Serialize<BrowsePath>(const BrowsePath& path)
+    {
+      *this << path.StartingNode;
+      *this << path.Path;
+    }
+
+    template<>
+    void DataDeserializer::Deserialize<std::vector<BrowsePath>>(std::vector<BrowsePath>& paths)
+    {
+      DeserializeContainer(*this, paths);
+    }
+
+    template<>
+    void DataSerializer::Serialize<std::vector<BrowsePath>>(const std::vector<BrowsePath>& paths)
+    {
+      SerializeContainer(*this, paths);
+    }
+
+    template<>
+    void DataDeserializer::Deserialize<TranslateBrowsePathsParameters>(TranslateBrowsePathsParameters& path)
+    {
+      *this >> path.BrowsePaths;
+    }
+
+
+   //Request
+
+
+
+    template<>
+    std::size_t RawSize<TranslateBrowsePathsToNodeIDsRequest>(const TranslateBrowsePathsToNodeIDsRequest& request)
+    {
+      return RawSize(request.TypeID) + RawSize(request.Header) + RawSize(request.Parameters)  ;
+    }
+
+    template<>
+    void DataSerializer::Serialize<TranslateBrowsePathsToNodeIDsRequest>(const TranslateBrowsePathsToNodeIDsRequest& request)
+    {
+      *this << request.TypeID;
+      *this << request.Header;
+      *this << request.Parameters;
+    }
+
+
+    template<>
+    void DataSerializer::Serialize<TranslateBrowsePathsParameters>(const TranslateBrowsePathsParameters& params)
+    {
+      *this << params.BrowsePaths;
+    }
+
+
+
 
   } // namespace Binary
 } // namespace OpcUa
