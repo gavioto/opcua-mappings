@@ -16,7 +16,7 @@
 namespace OpcUa
 {
 
-  enum class NodeClass : uint32_t
+  enum class NodeClass : int32_t
   {
     All = 0, // uses in browse description to aquire all classes.
     Object = 1,
