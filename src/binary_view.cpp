@@ -693,5 +693,13 @@ namespace OpcUa
       *this << request.Parameters;
     }
 
+    template<>
+    void DataDeserializer::Deserialize<TranslateBrowsePathsToNodeIDsRequest>(TranslateBrowsePathsToNodeIDsRequest& request)
+    {
+      *this >> request.TypeID;
+      *this >> request.Header;
+      *this >> request.Parameters;
+    }
+
   } // namespace Binary
 } // namespace OpcUa
