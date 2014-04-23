@@ -97,6 +97,13 @@ namespace OpcUa
     {
       return NamespaceIndex == name.NamespaceIndex && Name == name.Name;
     }
+
+    private: 
+      friend std::ostream& operator<<(std::ostream& os, const QualifiedName& qn){
+        os << "QualifiedName(" << qn.NamespaceIndex << ":" << qn.Name << ")";
+        return os;
+      }
+
   };
 
   struct RelativePathElement

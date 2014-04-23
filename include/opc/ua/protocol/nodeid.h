@@ -175,14 +175,11 @@ namespace OpcUa
     Guid GetGuidIdentifier() const;
     std::string ToString() const; 
 
-
     private: 
       friend std::ostream& operator<<(std::ostream& os, const NodeID& nodeid){
         os << nodeid.ToString();
         return os;
       }
-
-
 
   };
 
