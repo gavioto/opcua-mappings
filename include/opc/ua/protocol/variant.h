@@ -270,8 +270,11 @@ namespace OpcUa
   };
 
   template<typename T> 
-    struct is_container : std::integral_constant<bool, has_const_iterator<T>::value && has_begin_end<T>::beg_value && has_begin_end<T>::end_value> 
+    struct is_container_not_string : std::integral_constant<bool, has_const_iterator<T>::value && has_begin_end<T>::beg_value && has_begin_end<T>::end_value> 
   { };
+
+  template<> 
+    struct is_container_not_string<std::string> : std::integral_constant<bool, false> {};
 
   struct Variant
   {
@@ -293,7 +296,7 @@ namespace OpcUa
     {
       Value = VariantValue(value);
       Type = Value.GetType();
-      if ( is_container< T >::value ){ _array = true;}
+      if ( is_container_not_string< T >::value ){ _array = true;}
       return *this;
     }
 
@@ -308,7 +311,7 @@ namespace OpcUa
     {
       Value = VariantValue(value);
       Type = Value.GetType();
-      if ( is_container< T >::value ) _array = true;
+      if ( is_container_not_string< T >::value ) { _array = true;}
     }
 
     Variant(const Variant& var);
