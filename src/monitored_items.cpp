@@ -18,6 +18,12 @@
 namespace OpcUa
 {
 
+  CreateMonitoredItemsRequest::CreateMonitoredItemsRequest()
+    : TypeID(MessageID::CREATE_MONITORED_ITEMS_REQUEST)
+  {
+  }
+
+
   CreateMonitoredItemsResponse::CreateMonitoredItemsResponse()
     : TypeID(MessageID::CREATE_MONITORED_ITEMS_RESPONSE)
   {
@@ -27,6 +33,7 @@ namespace OpcUa
     : Results(1)
   {
   }
+
 
   CreateMonitoredItemsResult::CreateMonitoredItemsResult()
     : Status(StatusCode::BadNotImplemented)

@@ -1069,6 +1069,34 @@ namespace OpcUa
       *this << params.ItemsToCreate;
     }
 
+    ////////////////////////////////////////////////////////
+    // CreateMonitoredItemsRequest
+    ////////////////////////////////////////////////////////
+
+    template<>
+    std::size_t RawSize<CreateMonitoredItemsRequest>(const OpcUa::CreateMonitoredItemsRequest& params)
+    {
+      return RawSize(params.TypeID) +
+          RawSize(params.Header) +
+          RawSize(params.Parameters); 
+    }
+
+    template<>
+    void DataDeserializer::Deserialize<CreateMonitoredItemsRequest>(CreateMonitoredItemsRequest& params)
+    {
+      *this >> params.TypeID;
+      *this >> params.Header;
+      *this >> params.Parameters;
+    }
+
+    template<>
+    void DataSerializer::Serialize<CreateMonitoredItemsRequest>(const CreateMonitoredItemsRequest& params)
+    {
+      *this << params.TypeID;
+      *this << params.Header;
+      *this << params.Parameters;
+    }
+
 
 
 
