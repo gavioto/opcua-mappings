@@ -375,6 +375,63 @@ namespace OpcUa
     return *this == NodeID(messageID);
   }
 
+  std::string NodeID::ToString() const
+  {
+    std::ostringstream os;
+    os << "NodeID(" ;
+    OpcUa::NodeIDEncoding encoding = static_cast<OpcUa::NodeIDEncoding>(Encoding & OpcUa::NodeIDEncoding::EV_VALUE_MASK);
+
+    switch (encoding)
+    {
+      case OpcUa::NodeIDEncoding::EV_TWO_BYTE:
+      {
+        os << (unsigned)TwoByteData.Identifier ;
+        break;
+      }
+
+      case OpcUa::NodeIDEncoding::EV_FOUR_BYTE:
+      {
+        os << (unsigned)FourByteData.NamespaceIndex << ":" << (unsigned)FourByteData.Identifier ;
+        break;
+      }
+
+      case OpcUa::NodeIDEncoding::EV_NUMERIC:
+      {
+        os << (unsigned)NumericData.NamespaceIndex << ":" << (unsigned)NumericData.Identifier ;
+        break;
+      }
+
+      case OpcUa::NodeIDEncoding::EV_STRING:
+      {
+        os << (unsigned)StringData.NamespaceIndex << ":" << StringData.Identifier;
+        break;
+      }
+
+      case OpcUa::NodeIDEncoding::EV_BYTE_STRING:
+      {
+        os << (unsigned)BinaryData.NamespaceIndex << ":";
+        for (auto val : BinaryData.Identifier) {os << (unsigned)val; }
+        break;
+      }
+
+      case OpcUa::NodeIDEncoding::EV_GUID:
+      {
+        os << (unsigned)GuidData.NamespaceIndex ;
+        const OpcUa::Guid& guid = GuidData.Identifier;
+        os << ":" << std::hex << guid.Data1 << "-" << guid.Data2 << "-" << guid.Data3;
+        for (auto val : guid.Data4) {os << (unsigned)val; }
+        break;
+      }
+      default:
+      {
+        os << "unknown id type:" << (unsigned)encoding ;
+        break;
+      }
+    }
+    os << ")";
+    return os.str();
+  }
+
   namespace Binary
   {
     template<>
@@ -579,6 +636,8 @@ namespace OpcUa
         *this >> id.ServerIndex;
       }
     };
+
+
 
   } // namespace Binary
 } // namespace OpcUa

@@ -50,10 +50,10 @@ namespace OpcUa
     NodeID TypeID;
     QualifiedName BrowsePath;
     IntegerID AttributeID;
-    std::vector<std::string> IndexRange; // TODO ?
+    std::vector<std::string> IndexRange; 
   };
 
-  enum class FilterOperator
+  enum class FilterOperator : uint32_t
   {
     Equals = 0,
     IsNull = 1,
@@ -116,7 +116,7 @@ namespace OpcUa
     DateTime StartTime;
     NodeID AggregateType;
     Duration ProcessingInterval;
-//    AggregateConfiguration Configuration;
+    //AggregateConfiguration Configuration; //aggregate conf is in fact the following parameters
     bool UseServerCapabilitiesDefaults;
     bool TreatUncertainAsBad;
     uint8_t PercentDataBad;

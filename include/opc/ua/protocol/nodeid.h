@@ -16,6 +16,7 @@
 #include <opc/ua/protocol/guid.h>
 #include <opc/ua/reference_ids.h>
 
+#include <sstream>
 #include <stdint.h>
 #include <string>
 #include <vector>
@@ -172,6 +173,14 @@ namespace OpcUa
     std::string GetStringIdentifier() const;
     std::vector<uint8_t> GetBinaryIdentifier() const;
     Guid GetGuidIdentifier() const;
+    std::string ToString() const; 
+
+    private: 
+      friend std::ostream& operator<<(std::ostream& os, const NodeID& nodeid){
+        os << nodeid.ToString();
+        return os;
+      }
+
   };
 
   inline NodeID TwoByteNodeID(uint8_t value)

@@ -18,6 +18,12 @@
 namespace OpcUa
 {
 
+  CreateMonitoredItemsRequest::CreateMonitoredItemsRequest()
+    : TypeID(MessageID::CREATE_MONITORED_ITEMS_REQUEST)
+  {
+  }
+
+
   CreateMonitoredItemsResponse::CreateMonitoredItemsResponse()
     : TypeID(MessageID::CREATE_MONITORED_ITEMS_RESPONSE)
   {
@@ -27,6 +33,7 @@ namespace OpcUa
     : Results(1)
   {
   }
+
 
   CreateMonitoredItemsResult::CreateMonitoredItemsResult()
     : Status(StatusCode::BadNotImplemented)
@@ -60,6 +67,30 @@ namespace OpcUa
       *this << result.FilterResult;
     }
 
+   template<>
+    void DataDeserializer::Deserialize<CreateMonitoredItemsResult>(CreateMonitoredItemsResult& params)
+    {
+      *this >> params.Status;
+      *this >> params.MonitoredItemID;
+      *this >> params.RevisedSamplingInterval;
+      *this >> params.RevizedQueueSize;
+      *this >> params.FilterResult;
+    }
+
+    template<>
+    void DataSerializer::Serialize<std::vector<CreateMonitoredItemsResult>>(const std::vector<CreateMonitoredItemsResult>& targets)
+    {
+      SerializeContainer(*this, targets);
+    }
+
+    template<>
+    void DataDeserializer::Deserialize<std::vector<CreateMonitoredItemsResult>>(std::vector<CreateMonitoredItemsResult>& targets)
+    {
+      DeserializeContainer(*this, targets);
+    }
+
+
+
     ////////////////////////////////////////////////////////////////
 
     template <>
@@ -74,6 +105,29 @@ namespace OpcUa
       SerializeContainer(*this, data.Results, 0);
       SerializeContainer(*this, data.Diagnostics, 0);
     }
+
+    template<>
+    void DataDeserializer::Deserialize<MonitoredItemsData>(MonitoredItemsData& params)
+    {
+      *this >> params.Results;
+      *this >> params.Diagnostics;
+    }
+    
+    template<>
+    void DataSerializer::Serialize<std::vector<MonitoredItemsData>>(const std::vector<MonitoredItemsData>& targets)
+    {
+      SerializeContainer(*this, targets);
+    }
+
+    template<>
+    void DataDeserializer::Deserialize<std::vector<MonitoredItemsData>>(std::vector<MonitoredItemsData>& targets)
+    {
+      DeserializeContainer(*this, targets);
+    }
+
+
+
+
 
     ////////////////////////////////////////////////////////////////
 
@@ -90,6 +144,16 @@ namespace OpcUa
       *this << response.Header;
       *this << response.Data;
     }
+
+    template<>
+    void DataDeserializer::Deserialize<CreateMonitoredItemsResponse>(CreateMonitoredItemsResponse& params)
+    {
+      *this >> params.TypeID;
+      *this >> params.Header;
+      *this >> params.Data;
+    }
+
+
 
   }
 }

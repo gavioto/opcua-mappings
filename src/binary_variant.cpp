@@ -92,6 +92,13 @@ namespace
   }
 
   template <typename T>
+  void RawValueSizeArray(const std::vector<T>& t, std::size_t& size)
+  {
+      size = RawSizeContainer(t);
+  }
+
+
+  template <typename T>
   void RawValueSize(const std::vector<T>& t, std::size_t& size)
   {
     if (IsValueArray(t))
@@ -108,6 +115,11 @@ namespace
     }
   }
 
+  template <typename T>
+  void SerializeValueArray(const std::vector<T>& value, OpcUa::Binary::DataSerializer& stream)
+  {
+      SerializeContainer(stream, value);
+  }
 
   template <typename T>
   void SerializeValue(const std::vector<T>& value, OpcUa::Binary::DataSerializer& stream)
@@ -766,6 +778,7 @@ namespace OpcUa
   {
     Type = var.Type;
     Dimensions = var.Dimensions;
+    _array = var.IsArray();
     CopyValue(Type, var.Value, this->Value);
   }
 
@@ -773,15 +786,23 @@ namespace OpcUa
   {
     Type = var.Type;
     Dimensions = var.Dimensions;
+    _array = var.IsArray();
     CopyValue(Type, var.Value, this->Value);
     return *this;
   }
 
   bool Variant::IsArray() const
   {
-    bool isArray = false;
-    ApplyToVariantValue(Type, Value, IsValueArray, isArray);
-    return isArray;
+    bool GuessedIsArray = false;
+    ApplyToVariantValue(Type, Value, IsValueArray, GuessedIsArray);
+    if (_array == false and GuessedIsArray == false)
+    {
+      return false;
+    }
+    else
+    {
+      return true;
+    }
   }
 
   bool Variant::IsNul() const
@@ -923,7 +944,14 @@ namespace OpcUa
       }
 
       std::size_t valueSize = 0;
-      ApplyToVariantValue(var.Type, var.Value, RawValueSize, valueSize);
+      if (var.IsArray())
+      {
+        ApplyToVariantValue(var.Type, var.Value, RawValueSizeArray, valueSize);
+      }
+      else
+      {
+        ApplyToVariantValue(var.Type, var.Value, RawValueSize, valueSize);
+      }
       size += valueSize;
       if (!var.Dimensions.empty())
       {
@@ -954,9 +982,14 @@ namespace OpcUa
       {
         return;
       }
-
-      ApplyToVariantValue(var.Type, var.Value, SerializeValue, *this);
-
+      if (var.IsArray() )
+      {
+        ApplyToVariantValue(var.Type, var.Value, SerializeValueArray, *this);
+      }
+      else
+      {
+        ApplyToVariantValue(var.Type, var.Value, SerializeValue, *this);
+      }
       if (!var.Dimensions.empty())
       {
         SerializeContainer(*this, var.Dimensions);
