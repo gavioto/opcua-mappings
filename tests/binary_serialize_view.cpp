@@ -1060,7 +1060,7 @@ TEST_F(ViewDeserialization, TranslateBrowsePathsToNodeIDsResponse)
   // Diagnostics
   1,0,0,0, // Count
   static_cast<DiagnosticInfoMask>(DIM_LOCALIZED_TEXT | DIM_INNER_DIAGNOSTIC_INFO), 4,0,0,0, \
-  DIM_ADDITIONAL_INFO, 3, 0, 0, 0, 'a', 'd', 'd', \
+  DIM_ADDITIONAL_INFO, 3, 0, 0, 0, 'a', 'd', 'd',
   };
 
   GetChannel().SetData(expectedData);
@@ -1076,4 +1076,98 @@ TEST_F(ViewDeserialization, TranslateBrowsePathsToNodeIDsResponse)
 
   ASSERT_EQ(response.Result.Paths.size(), 1);
   ASSERT_EQ(response.Result.Diagnostics.size(), 1);
+}
+
+//-------------------------------------------------------
+// TranslateBrowsePathsToNodeIDsRequest
+//-------------------------------------------------------
+
+TEST_F(ViewSerialization, TranslateBrowsePathsToNodeIDsRequest)
+{
+  using namespace OpcUa;
+  using namespace OpcUa::Binary;
+
+  RelativePathElement element;
+  element.ReferenceTypeID = OpcUa::TwoByteNodeID(1);
+  element.IsInverse = true;
+  element.IncludeSubtypes = true;
+  element.TargetName.NamespaceIndex = 2;
+  element.TargetName.Name = "name";
+
+  BrowsePath browse;
+  browse.StartingNode = OpcUa::TwoByteNodeID(2);
+  browse.Path.Elements.push_back(element);
+
+  TranslateBrowsePathsToNodeIDsRequest request;
+  request.Parameters.BrowsePaths.push_back(browse);
+
+  ASSERT_EQ(request.TypeID.Encoding, EV_FOUR_BYTE);
+  ASSERT_EQ(request.TypeID.FourByteData.NamespaceIndex, 0);
+  ASSERT_EQ(request.TypeID.FourByteData.Identifier, OpcUa::TRANSLATE_BROWSE_PATHS_TO_NODE_IDS_REQUEST);
+
+  FILL_TEST_REQUEST_HEADER(request.Header);
+
+  GetStream() << request << flush;
+
+  const std::vector<char> expectedData = {
+    1, 0, (char)0x2A, 0x2, // TypeID
+    // RequestHeader
+    TEST_REQUEST_HEADER_BINARY_DATA,
+
+    1,0,0,0, // Number of BrowsePaths
+    0,2,
+    1,0,0,0, // Number of Elements
+    0,1,     // Reference Type (Two Byte Node ID)
+    1,       // IsInverse
+    1,       // IncludeSubTypes
+    2,0, 4,0,0,0, 'n','a','m','e', // TargetName
+  };
+
+  ASSERT_EQ(expectedData, GetChannel().SerializedData) <<
+      "Serialized: " << std::endl << PrintData(GetChannel().SerializedData) << std::endl <<
+      "Expected" << std::endl << PrintData(expectedData);
+  ASSERT_EQ(expectedData.size(), RawSize(request));
+}
+
+TEST_F(ViewDeserialization, TranslateBrowsePathsToNodeIDsRequest)
+{
+  using namespace OpcUa;
+  using namespace OpcUa::Binary;
+
+  const std::vector<char> expectedData = {
+    1, 0, (char)0x2A, 0x2, // TypeID
+    // RequestHeader
+    TEST_REQUEST_HEADER_BINARY_DATA,
+
+    1,0,0,0, // Number of BrowsePaths
+    0,2,     // Starting node
+    1,0,0,0, // Number of Elements
+    0,1,     // Reference Type (Two Byte Node ID)
+    1,       // IsInverse
+    1,       // IncludeSubTypes
+    2,0, 4,0,0,0, 'n','a','m','e', // TargetName
+  };
+
+  GetChannel().SetData(expectedData);
+
+  TranslateBrowsePathsToNodeIDsRequest request;
+  GetStream() >> request;
+
+  ASSERT_EQ(request.TypeID.Encoding, EV_FOUR_BYTE);
+  ASSERT_EQ(request.TypeID.FourByteData.NamespaceIndex, 0);
+  ASSERT_EQ(request.TypeID.FourByteData.Identifier, OpcUa::TRANSLATE_BROWSE_PATHS_TO_NODE_IDS_REQUEST);
+
+  ASSERT_REQUEST_HEADER_EQ(request.Header);
+
+  ASSERT_EQ(request.Parameters.BrowsePaths.size(), 1);
+  const BrowsePath& browsePath = request.Parameters.BrowsePaths[0];
+  ASSERT_EQ(browsePath.StartingNode, OpcUa::TwoByteNodeID(2));
+  ASSERT_EQ(browsePath.Path.Elements.size(), 1);
+
+  const RelativePathElement& element = browsePath.Path.Elements[0];
+  ASSERT_TRUE(element.IncludeSubtypes);
+  ASSERT_TRUE(element.IsInverse);
+  ASSERT_EQ(element.ReferenceTypeID, OpcUa::TwoByteNodeID(1));
+  ASSERT_EQ(element.TargetName.NamespaceIndex, 2);
+  ASSERT_EQ(element.TargetName.Name, "name");
 }
