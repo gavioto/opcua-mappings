@@ -934,34 +934,31 @@ namespace OpcUa
 
 
     ////////////////////////////////////////////////////////
-    // MonitoringFilter
+    // ExtensionObjectMonitoringFilter
     ////////////////////////////////////////////////////////
 
     template<>
-    std::size_t RawSize<MonitoringFilter>(const OpcUa::MonitoringFilter& params)
+    std::size_t RawSize<ExtensionObjectMonitoringFilter>(const OpcUa::ExtensionObjectMonitoringFilter& params)
     {
-      return RawSize(params.Header) +
-          RawSize(params.DataChange) +
-          RawSize(params.Event) +
-          RawSize(params.Aggregate); 
+     const std::size_t sizeofEncoding = 1;
+      return RawSize(params.typeID) +
+          RawSize(sizeofEncoding); 
     }
 
     template<>
-    void DataDeserializer::Deserialize<MonitoringFilter>(MonitoringFilter& params)
+    void DataDeserializer::Deserialize<ExtensionObjectMonitoringFilter>(ExtensionObjectMonitoringFilter& params)
     {
-      *this >> params.Header;
-      *this >> params.Event;
-      *this >> params.DataChange;
-      *this >> params.Aggregate;
+      *this >> params.typeID;
+      uint8_t tmp = 0;
+      *this >> tmp;
+      params.Encoding = static_cast<ExtensionObjectEncoding>(tmp);
     }
 
     template<>
-    void DataSerializer::Serialize<MonitoringFilter>(const MonitoringFilter& params)
+    void DataSerializer::Serialize<ExtensionObjectMonitoringFilter>(const ExtensionObjectMonitoringFilter& params)
     {
-      *this << params.Header;
-      *this << params.DataChange;
-      *this << params.Event;
-      *this << params.Aggregate;
+      *this << params.typeID;
+      *this << static_cast<uint8_t>(params.Encoding);
     }
 
  
@@ -1096,6 +1093,7 @@ namespace OpcUa
       *this << params.Header;
       *this << params.Parameters;
     }
+
 
 
 

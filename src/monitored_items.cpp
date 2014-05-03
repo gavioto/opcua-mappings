@@ -30,7 +30,6 @@ namespace OpcUa
   }
 
   MonitoredItemsData::MonitoredItemsData()
-    : Results(1)
   {
   }
 
