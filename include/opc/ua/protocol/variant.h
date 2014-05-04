@@ -16,8 +16,6 @@
 #include <opc/ua/status_codes.h>
 #include <string>
 
-#include <boost/variant.hpp>
-
 #include <stdexcept>
 
 namespace OpcUa

@@ -25,7 +25,7 @@
 #include <stdlib.h>
 #include <string>
 
-static std::string PrintData(const std::vector<char>& vec)
+inline std::string PrintData(const std::vector<char>& vec)
 {
   std::stringstream stream;
   for (std::size_t i = 0; i < vec.size(); ++i)
