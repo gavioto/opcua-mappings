@@ -66,7 +66,8 @@ libopcuabinary_la_SOURCES = \
   src/subscriptions.cpp
 
 
-libopcuabinary_la_CPPFLAGS = -I$(top_srcdir)/include -I$(top_srcdir)/../../libopccore/include
+libopcuabinary_la_CPPFLAGS = -I$(top_srcdir)/include -I$(top_srcdir)/../../libopccore/include $(GCOV_FLAGS)
+libopcuabinary_la_LDFLAGS = $(GCOV_LIBS)
 
 TESTS = opc_ua_binary_test
 
@@ -89,9 +90,9 @@ opc_ua_binary_test_SOURCES =  \
  tests/reference_id.cpp \
  tests/utils.cpp
 
-opc_ua_binary_test_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/include -I$(top_srcdir)/../../libopccore/include $(GTEST_INCLUDES) $(GMOCK_INCLUDES)
+opc_ua_binary_test_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/include -I$(top_srcdir)/../../libopccore/include $(GTEST_INCLUDES) $(GMOCK_INCLUDES) $(GCOV_FLAGS)
 opc_ua_binary_test_LDADD = libopcuabinary.la
-opc_ua_binary_test_LDFLAGS = -lpthread -Wl,-z,defs $(GTEST_LIB) $(GTEST_MAIN_LIB) 
+opc_ua_binary_test_LDFLAGS = -lpthread -Wl,-z,defs $(GTEST_LIB) $(GTEST_MAIN_LIB) $(GCOV_LIBS)
 
 pkgsharedir = $(libdir)/pkgconfig
 pkgshare_DATA = libopcuabinary.pc
@@ -102,7 +103,7 @@ pkgconfig_DATA = libopcuabinary.pc
 EXTRA_DIST = debian make_deb.sh
 
 clean-local:
-	rm -rvf opcuamappings*$(VERSION)* 
+	rm -rvf opcuamappings*$(VERSION)* *.gcov *.gcno *.gcda
 
 dist-deb: dist
 	VERSION=$(VERSION) $(top_srcdir)/make_deb.sh

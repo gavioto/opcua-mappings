@@ -55,7 +55,7 @@ TEST_F(OpcUaBinarySerialization, Variant_BOOLEAN)
 
   GetStream() << var << flush;
 
-  uint8_t encodingMask = static_cast<uint8_t>(VariantType::BOOLEAN);
+  char encodingMask = static_cast<uint8_t>(VariantType::BOOLEAN);
   const std::vector<char> expectedData = {
   encodingMask,
   1
@@ -77,7 +77,7 @@ TEST_F(OpcUaBinarySerialization, Variant_BOOLEAN_Array)
 
   GetStream() << var << flush;
 
-  uint8_t encodingMask = static_cast<uint8_t>(VariantType::BOOLEAN) | HAS_ARRAY_MASK;
+  char encodingMask = static_cast<uint8_t>(VariantType::BOOLEAN) | HAS_ARRAY_MASK;
   const std::vector<char> expectedData = {
   encodingMask,
   2,0,0,0,
@@ -103,7 +103,7 @@ TEST_F(OpcUaBinarySerialization, Variant_BOOLEAN_DIMENSIONS)
 
   GetStream() << var << flush;
 
-  uint8_t encodingMask = static_cast<uint8_t>(VariantType::BOOLEAN) | HAS_DIMENSIONS_MASK;
+  char encodingMask = static_cast<uint8_t>(VariantType::BOOLEAN) | HAS_DIMENSIONS_MASK;
   const std::vector<char> expectedData = {
   encodingMask,
   1,
@@ -144,7 +144,7 @@ TEST_F(OpcUaBinaryDeserialization, Variant_BOOLEAN)
   using namespace OpcUa;
   using namespace OpcUa::Binary;
 
-  uint8_t encodingMask = static_cast<uint8_t>(VariantType::BOOLEAN);
+  char encodingMask = static_cast<uint8_t>(VariantType::BOOLEAN);
 
   const std::vector<char> expectedData = {
   encodingMask,
@@ -168,7 +168,7 @@ TEST_F(OpcUaBinaryDeserialization, Variant_BOOLEAN_Array)
   using namespace OpcUa;
   using namespace OpcUa::Binary;
 
-  uint8_t encodingMask = static_cast<uint8_t>(VariantType::BOOLEAN) | HAS_ARRAY_MASK;
+  char encodingMask = static_cast<uint8_t>(VariantType::BOOLEAN) | HAS_ARRAY_MASK;
 
   const std::vector<char> expectedData = {
   encodingMask,
@@ -196,7 +196,7 @@ TEST_F(OpcUaBinaryDeserialization, Variant_BOOLEAN_DIMENSIONS)
   using namespace OpcUa;
   using namespace OpcUa::Binary;
 
-  uint8_t encodingMask = static_cast<uint8_t>(VariantType::BOOLEAN) | HAS_DIMENSIONS_MASK;
+  char encodingMask = static_cast<uint8_t>(VariantType::BOOLEAN) | HAS_DIMENSIONS_MASK;
 
   const std::vector<char> expectedData = {
   encodingMask,

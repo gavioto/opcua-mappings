@@ -128,6 +128,9 @@ am_libopcuabinary_la_OBJECTS = libopcuabinary_la-binary_variant.lo \
 	libopcuabinary_la-monitored_items.lo \
 	libopcuabinary_la-nodeid.lo libopcuabinary_la-subscriptions.lo
 libopcuabinary_la_OBJECTS = $(am_libopcuabinary_la_OBJECTS)
+libopcuabinary_la_LINK = $(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(AM_CXXFLAGS) \
+	$(CXXFLAGS) $(libopcuabinary_la_LDFLAGS) $(LDFLAGS) -o $@
 am__EXEEXT_1 = opc_ua_binary_test$(EXEEXT)
 am_opc_ua_binary_test_OBJECTS =  \
 	opc_ua_binary_test-binary_deserialize.$(OBJEXT) \
@@ -229,6 +232,8 @@ ECHO_T = @ECHO_T@
 EGREP = @EGREP@
 EXEEXT = @EXEEXT@
 FGREP = @FGREP@
+GCOV_FLAGS = @GCOV_FLAGS@
+GCOV_LIBS = @GCOV_LIBS@
 GREP = @GREP@
 GTEST_INCLUDES = @GTEST_INCLUDES@
 GTEST_LIB = @GTEST_LIB@
@@ -375,7 +380,8 @@ libopcuabinary_la_SOURCES = \
   src/nodeid.cpp \
   src/subscriptions.cpp
 
-libopcuabinary_la_CPPFLAGS = -I$(top_srcdir)/include -I$(top_srcdir)/../../libopccore/include
+libopcuabinary_la_CPPFLAGS = -I$(top_srcdir)/include -I$(top_srcdir)/../../libopccore/include $(GCOV_FLAGS)
+libopcuabinary_la_LDFLAGS = $(GCOV_LIBS)
 opc_ua_binary_test_SOURCES = \
  tests/binary_deserialize.cpp \
  tests/binary_serialize_variant.cpp \
@@ -393,9 +399,9 @@ opc_ua_binary_test_SOURCES = \
  tests/reference_id.cpp \
  tests/utils.cpp
 
-opc_ua_binary_test_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/include -I$(top_srcdir)/../../libopccore/include $(GTEST_INCLUDES) $(GMOCK_INCLUDES)
+opc_ua_binary_test_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/include -I$(top_srcdir)/../../libopccore/include $(GTEST_INCLUDES) $(GMOCK_INCLUDES) $(GCOV_FLAGS)
 opc_ua_binary_test_LDADD = libopcuabinary.la
-opc_ua_binary_test_LDFLAGS = -lpthread -Wl,-z,defs $(GTEST_LIB) $(GTEST_MAIN_LIB) 
+opc_ua_binary_test_LDFLAGS = -lpthread -Wl,-z,defs $(GTEST_LIB) $(GTEST_MAIN_LIB) $(GCOV_LIBS)
 pkgsharedir = $(libdir)/pkgconfig
 pkgshare_DATA = libopcuabinary.pc
 pkgconfigdir = $(datarootdir)/pkgconfig
@@ -492,7 +498,7 @@ clean-libLTLIBRARIES:
 	  rm -f "$${dir}/so_locations"; \
 	done
 libopcuabinary.la: $(libopcuabinary_la_OBJECTS) $(libopcuabinary_la_DEPENDENCIES) $(EXTRA_libopcuabinary_la_DEPENDENCIES) 
-	$(CXXLINK) -rpath $(libdir) $(libopcuabinary_la_OBJECTS) $(libopcuabinary_la_LIBADD) $(LIBS)
+	$(libopcuabinary_la_LINK) -rpath $(libdir) $(libopcuabinary_la_OBJECTS) $(libopcuabinary_la_LIBADD) $(LIBS)
 
 clean-checkPROGRAMS:
 	@list='$(check_PROGRAMS)'; test -n "$$list" || exit 0; \
@@ -1405,7 +1411,7 @@ uninstall-am: uninstall-binaryincludeHEADERS uninstall-libLTLIBRARIES \
 
 
 clean-local:
-	rm -rvf opcuamappings*$(VERSION)* 
+	rm -rvf opcuamappings*$(VERSION)* *.gcov *.gcno *.gcda
 
 dist-deb: dist
 	VERSION=$(VERSION) $(top_srcdir)/make_deb.sh
