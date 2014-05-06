@@ -303,8 +303,8 @@ TEST_F(OpcUaBinaryDeserialization, ReadResponse)
   using namespace OpcUa;
   using namespace OpcUa::Binary;
 
-  uint8_t variantMask = static_cast<uint8_t>(VariantType::BOOLEAN);
-  uint8_t encodingMask = 
+  char variantMask = static_cast<uint8_t>(VariantType::BOOLEAN);
+  char encodingMask = 
      DATA_VALUE |
      DATA_VALUE_STATUS_CODE |
      DATA_VALUE_SOURCE_TIMESTAMP |

@@ -52,7 +52,7 @@ namespace OpcUa
 
     template <typename T>
     explicit DataValue(const T val)
-    : DataValue()
+      : DataValue()
     {
       Value = Variant(val);
       Encoding |= DATA_VALUE;

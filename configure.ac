@@ -34,6 +34,16 @@ AC_ARG_WITH([gtest],
               AC_SUBST([GTEST_MAIN_LIB], [-lgtest_main])
             ])
 
+AC_ARG_ENABLE([gcov],
+              [AS_HELP_STRING([--enable-gcov],[Enable support of coverage analize with gcov.])],
+              [
+                AC_SUBST([GCOV_FLAGS], ["-fprofile-arcs -ftest-coverage"])
+                AC_SUBST([GCOV_LIBS], [-lgcov])
+                AC_MSG_NOTICE([Enabled support of code coverage analize.]) 
+              ],
+              [
+              ])
+
 AC_SUBST([RELEASE_DATE], [$(date -R)])
 
 #check headers
