@@ -12,6 +12,7 @@
 #define OPC_UA_PROTOCOL_SUBSCRIPTIONS_H
 
 #include <opc/ua/protocol/types.h>
+#include <opc/ua/protocol/data_value.h>
 
 namespace OpcUa
 {
@@ -109,11 +110,42 @@ namespace OpcUa
   // NotificationMessage
   ////////////////////////////////////////////////////////
 
+  struct StatusChangeNotification
+  {
+    StatusCode status;
+    DiagnosticInfo DiagnosticInfo;
+  };
+
+  struct EventFieldList
+  {
+    IntegerID ClientHandle;
+    //std::vector<BaseDataType> EventFields; FIXME
+  };
+
+  struct EventNotificationList
+  {
+    std::vector<EventFieldList> Events;
+  };
+
+  struct MonitoredItems
+  {
+    IntegerID ClientHandle;
+    DataValue Value;
+  };
+
+  struct DataChangeNotification
+  {
+    std::vector<MonitoredItems> Notification;
+    DiagnosticInfoList DiagnosticInfo;
+  };
+
+
   struct NotificationData
   {
     ExtensionObjectHeader Header;
     // TODO Notification message content.
   };
+
 
   ////////////////////////////////////////////////////////
   // NotificationMessage
