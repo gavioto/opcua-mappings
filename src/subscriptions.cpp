@@ -351,25 +351,102 @@ namespace OpcUa
     }
 
     ////////////////////////////////////////////////////////
-    // NotificationMessage
+    // MonitoredItems
+    ////////////////////////////////////////////////////////
+
+    template<>
+    std::size_t RawSize(const MonitoredItems& request)
+    {
+      return RawSize(request.ClientHandle) + RawSize(request.Value);
+    }
+
+    template<>
+    void DataDeserializer::Deserialize<MonitoredItems>(MonitoredItems& request)
+    {
+      *this >> request.ClientHandle;
+      *this >> request.Value;
+    }
+
+    template<>
+    void DataSerializer::Serialize<MonitoredItems>(const MonitoredItems& request)
+    {
+      *this << request.ClientHandle;
+      *this << request.Value;
+    }
+
+    template<>
+    void DataSerializer::Serialize<std::vector<MonitoredItems>>(const std::vector<MonitoredItems>& targets)
+    {
+      SerializeContainer(*this, targets);
+    }
+
+    template<>
+    void DataDeserializer::Deserialize<std::vector<MonitoredItems>>(std::vector<MonitoredItems>& targets)
+    {
+      DeserializeContainer(*this, targets);
+    }
+
+
+
+    ////////////////////////////////////////////////////////
+    // DataChangeNotification
+    ////////////////////////////////////////////////////////
+
+    template<>
+    std::size_t RawSize(const DataChangeNotification& request)
+    {
+      return RawSizeContainer(request.Notification) + RawSize(request.DiagnosticInfo);
+    }
+
+    template<>
+    void DataDeserializer::Deserialize<DataChangeNotification>(DataChangeNotification& request)
+    {
+      *this >> request.Notification;
+      *this >> request.DiagnosticInfo;
+    }
+
+    template<>
+    void DataSerializer::Serialize<DataChangeNotification>(const DataChangeNotification& request)
+    {
+      *this << request.Notification;
+      *this << request.DiagnosticInfo;
+    }
+
+
+    ////////////////////////////////////////////////////////
+    // NotificationData
     ////////////////////////////////////////////////////////
 
     template<>
     std::size_t RawSize(const NotificationData& data)
     {
-      return RawSize(data.Header);
+      size_t total = 0;
+      total += RawSize(data.Header);
+      if ( data.Header.TypeID == NumericNodeID(811, 0)  )
+      {
+        total += RawSize(data.DataChange);
+      }
+      return total;
     }
 
     template<>
     void DataDeserializer::Deserialize<NotificationData>(NotificationData& data)
     {
       *this >> data.Header;
+      if ( data.Header.TypeID == NumericNodeID(811, 0) ) 
+      {
+          *this >> data.DataChange;
+      }
     }
 
     template<>
     void DataSerializer::Serialize<NotificationData>(const NotificationData& data)
     {
       *this << data.Header;
+      if (data.Header.TypeID == NumericNodeID(811, 0) )
+      {
+        *this << data.DataChange;
+      }
     }
 
     ////////////////////////////////////////////////////////

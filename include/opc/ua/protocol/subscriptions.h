@@ -143,7 +143,9 @@ namespace OpcUa
   struct NotificationData
   {
     ExtensionObjectHeader Header;
-    // TODO Notification message content.
+    DataChangeNotification DataChange;
+    EventNotificationList Events;
+    StatusChangeNotification StatusChange;
   };
 
 
