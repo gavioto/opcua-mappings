@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/treww/opcua-mappings.svg?branch=continous_integration)](https://travis-ci.org/treww/opcua-mappings)
+[![Build Status](https://travis-ci.org/FreeOpcUa/opcua-mappings.svg?branch=master)](https://travis-ci.org/FreeOpcUa/opcua-mappings)
 
 opcua-mappings
 ==============
