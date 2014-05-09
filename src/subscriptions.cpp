@@ -395,21 +395,21 @@ namespace OpcUa
     template<>
     std::size_t RawSize(const DataChangeNotification& request)
     {
-      return RawSizeContainer(request.Notification) + RawSize(request.DiagnosticInfo);
+      return RawSizeContainer(request.Notification) + RawSize(request.Diagnostic);
     }
 
     template<>
     void DataDeserializer::Deserialize<DataChangeNotification>(DataChangeNotification& request)
     {
       *this >> request.Notification;
-      *this >> request.DiagnosticInfo;
+      *this >> request.Diagnostic;
     }
 
     template<>
     void DataSerializer::Serialize<DataChangeNotification>(const DataChangeNotification& request)
     {
       *this << request.Notification;
-      *this << request.DiagnosticInfo;
+      *this << request.Diagnostic;
     }
 
 

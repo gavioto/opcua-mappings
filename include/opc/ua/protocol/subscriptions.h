@@ -112,8 +112,8 @@ namespace OpcUa
 
   struct StatusChangeNotification
   {
-    StatusCode status;
-    DiagnosticInfo DiagnosticInfo;
+    StatusCode Status;
+    DiagnosticInfo Diagnostic;
   };
 
   struct EventFieldList
@@ -136,7 +136,7 @@ namespace OpcUa
   struct DataChangeNotification
   {
     std::vector<MonitoredItems> Notification;
-    DiagnosticInfoList DiagnosticInfo;
+    DiagnosticInfoList Diagnostic;
   };
 
 
