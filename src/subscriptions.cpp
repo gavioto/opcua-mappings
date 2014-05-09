@@ -94,12 +94,41 @@ namespace OpcUa
   {
   }
 
+
   ////////////////////////////////////////////////////////
   // NotificationData
   ////////////////////////////////////////////////////////
 
+    NotificationData::NotificationData(DataChangeNotification notification)
+    {
+      //Header.TypeID  = ObjectID::DataChangeNotification; 
+      Header.TypeID  = FourByteNodeID(811, 0); 
+      Header.Encoding  = static_cast<ExtensionObjectEncoding>(Header.Encoding | ExtensionObjectEncoding::HAS_BINARY_BODY);
+      DataChange = notification;
+    }
+
+    NotificationData::NotificationData(EventNotificationList notification)
+    {
+      Header.TypeID  = ObjectID::EventNotificationList; 
+      Header.Encoding  = static_cast<ExtensionObjectEncoding>(Header.Encoding | ExtensionObjectEncoding::HAS_BINARY_BODY);
+      Events = notification;
+    }
+
+    NotificationData::NotificationData(StatusChangeNotification notification)
+    {
+      Header.TypeID  = ObjectID::StatusChangeNotification; 
+      Header.Encoding  = static_cast<ExtensionObjectEncoding>(Header.Encoding | ExtensionObjectEncoding::HAS_BINARY_BODY);
+      StatusChange = notification;
+    }
+
+
+
+  ////////////////////////////////////////////////////////
+  // NotificationMessage
+  ////////////////////////////////////////////////////////
+
   NotificationMessage::NotificationMessage()
-    : SequenceID(1)
+    : SequenceID(0)
     , PublishTime(CurrentDateTime())
   {
   }
@@ -395,12 +424,14 @@ namespace OpcUa
     template<>
     std::size_t RawSize(const DataChangeNotification& request)
     {
-      return RawSizeContainer(request.Notification) + RawSize(request.Diagnostic);
+      return 4 + RawSizeContainer(request.Notification) + RawSize(request.Diagnostic);
     }
 
     template<>
     void DataDeserializer::Deserialize<DataChangeNotification>(DataChangeNotification& request)
     {
+      uint32_t tmp;
+      *this >> tmp; //it seems we do not need the size
       *this >> request.Notification;
       *this >> request.Diagnostic;
     }
@@ -408,6 +439,7 @@ namespace OpcUa
     template<>
     void DataSerializer::Serialize<DataChangeNotification>(const DataChangeNotification& request)
     {
+      *this << (uint32_t) RawSize(request);
       *this << request.Notification;
       *this << request.Diagnostic;
     }
@@ -417,12 +449,13 @@ namespace OpcUa
     // NotificationData
     ////////////////////////////////////////////////////////
 
+
     template<>
     std::size_t RawSize(const NotificationData& data)
     {
       size_t total = 0;
       total += RawSize(data.Header);
-      if ( data.Header.TypeID == NumericNodeID(811, 0)  )
+      if ( data.Header.TypeID == FourByteNodeID(811, 0) )
       {
         total += RawSize(data.DataChange);
       }
@@ -433,7 +466,7 @@ namespace OpcUa
     void DataDeserializer::Deserialize<NotificationData>(NotificationData& data)
     {
       *this >> data.Header;
-      if ( data.Header.TypeID == NumericNodeID(811, 0) ) 
+      if ( data.Header.TypeID == FourByteNodeID(811, 0) ) 
       {
           *this >> data.DataChange;
       }
@@ -443,7 +476,7 @@ namespace OpcUa
     void DataSerializer::Serialize<NotificationData>(const NotificationData& data)
     {
       *this << data.Header;
-      if (data.Header.TypeID == NumericNodeID(811, 0) )
+      if (data.Header.TypeID == FourByteNodeID(811, 0) )
       {
         *this << data.DataChange;
       }

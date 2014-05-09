@@ -146,6 +146,11 @@ namespace OpcUa
     DataChangeNotification DataChange;
     EventNotificationList Events;
     StatusChangeNotification StatusChange;
+
+    NotificationData(){}
+    NotificationData(DataChangeNotification notification);
+    NotificationData(EventNotificationList notification);
+    NotificationData(StatusChangeNotification notification);
   };
 
 
