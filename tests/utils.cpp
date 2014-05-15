@@ -11,6 +11,7 @@
 #include <opc/ua/protocol/datetime.h>
 #include <opc/ua/protocol/guid.h>
 #include <gtest/gtest.h>
+#include <stdexcept>
 
 using namespace testing;
 using namespace OpcUa;

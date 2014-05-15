@@ -98,6 +98,8 @@ namespace OpcUa
       return NamespaceIndex == name.NamespaceIndex && Name == name.Name;
     }
 
+    static QualifiedName ParseFromString(const std::string& str, uint16_t default_ns);
+
     private: 
       friend std::ostream& operator<<(std::ostream& os, const QualifiedName& qn){
         os << "QualifiedName(" << qn.NamespaceIndex << ":" << qn.Name << ")";

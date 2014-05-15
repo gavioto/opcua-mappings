@@ -63,7 +63,8 @@ libopcuabinary_la_SOURCES = \
   src/binary_view.cpp \
   src/monitored_items.cpp \
   src/nodeid.cpp \
-  src/subscriptions.cpp
+  src/subscriptions.cpp \
+  src/types.cpp
 
 
 libopcuabinary_la_CPPFLAGS = -I$(top_srcdir)/include -I$(top_srcdir)/../../libopccore/include $(GCOV_FLAGS)
@@ -92,7 +93,7 @@ opc_ua_binary_test_SOURCES =  \
 
 opc_ua_binary_test_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/include -I$(top_srcdir)/../../libopccore/include $(GTEST_INCLUDES) $(GMOCK_INCLUDES) $(GCOV_FLAGS)
 opc_ua_binary_test_LDADD = libopcuabinary.la
-opc_ua_binary_test_LDFLAGS = -lpthread -Wl,-z,defs $(GTEST_LIB) $(GTEST_MAIN_LIB) $(GCOV_LIBS)
+opc_ua_binary_test_LDFLAGS = -Wl,-z,defs $(GTEST_LIB) $(GTEST_MAIN_LIB) $(GCOV_LIBS) -lpthread 
 
 pkgsharedir = $(libdir)/pkgconfig
 pkgshare_DATA = libopcuabinary.pc

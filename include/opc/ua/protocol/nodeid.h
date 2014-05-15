@@ -122,6 +122,8 @@ namespace OpcUa
     NodeID(MessageID messageID);
     NodeID(ReferenceID referenceID);
     NodeID(ObjectID objectID);
+    NodeID(uint16_t index, uint32_t integerId);
+    NodeID(uint16_t index, std::string stringId);
 
     NodeID& operator= (const NodeID& node);
 
@@ -174,12 +176,8 @@ namespace OpcUa
     std::vector<uint8_t> GetBinaryIdentifier() const;
     Guid GetGuidIdentifier() const;
     std::string ToString() const; 
+    static OpcUa::NodeID ParseFromString(const std::string& str, uint16_t default_ns=0);
 
-    private: 
-      friend std::ostream& operator<<(std::ostream& os, const NodeID& nodeid){
-        os << nodeid.ToString();
-        return os;
-      }
 
   };
 
@@ -235,6 +233,8 @@ namespace OpcUa
     id.GuidData.NamespaceIndex = namespaceIndex;
     return id;
   }
+
+   std::ostream& operator<<(std::ostream& os, const NodeID& nodeid);
 
 } // namespace OpcUa
 

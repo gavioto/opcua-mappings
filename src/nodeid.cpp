@@ -18,6 +18,22 @@
 
 namespace OpcUa
 {
+
+
+  NodeID::NodeID(uint16_t index, uint32_t integerId)
+  {
+    Encoding = EV_NUMERIC;
+    NumericData.Identifier = integerId;
+    NumericData.NamespaceIndex = index;
+  }
+
+  NodeID::NodeID(uint16_t index, std::string stringId)
+  {
+    Encoding = EV_STRING;
+    StringData.Identifier = stringId;
+    StringData.NamespaceIndex = index;
+  }
+
   bool NodeID::IsInteger() const
   {
     const NodeIDEncoding enc = GetEncodingValue();
@@ -375,49 +391,61 @@ namespace OpcUa
     return *this == NodeID(messageID);
   }
 
-  std::string NodeID::ToString() const
+  OpcUa::NodeID NodeID::ParseFromString(const std::string& str, uint16_t default_ns)
   {
-    std::ostringstream os;
+    std::size_t found = str.find(":");
+    if (found != std::string::npos)
+    {
+      uint16_t ns = std::stoi(str.substr(0, found));
+      std::string name = str.substr(found+1, str.length() - found);
+      return StringNodeID(name, ns);
+    }
+
+    return StringNodeID(str, default_ns);
+  }
+
+  std::ostream& operator<<(std::ostream& os, const NodeID& nodeid)
+  {
     os << "NodeID(" ;
-    OpcUa::NodeIDEncoding encoding = static_cast<OpcUa::NodeIDEncoding>(Encoding & OpcUa::NodeIDEncoding::EV_VALUE_MASK);
+    OpcUa::NodeIDEncoding encoding = static_cast<OpcUa::NodeIDEncoding>(nodeid.Encoding & OpcUa::NodeIDEncoding::EV_VALUE_MASK);
 
     switch (encoding)
     {
       case OpcUa::NodeIDEncoding::EV_TWO_BYTE:
       {
-        os << (unsigned)TwoByteData.Identifier ;
+        os << (unsigned)nodeid.TwoByteData.Identifier ;
         break;
       }
 
       case OpcUa::NodeIDEncoding::EV_FOUR_BYTE:
       {
-        os << (unsigned)FourByteData.NamespaceIndex << ":" << (unsigned)FourByteData.Identifier ;
+        os << (unsigned)nodeid.FourByteData.NamespaceIndex << ":" << (unsigned)nodeid.FourByteData.Identifier ;
         break;
       }
 
       case OpcUa::NodeIDEncoding::EV_NUMERIC:
       {
-        os << (unsigned)NumericData.NamespaceIndex << ":" << (unsigned)NumericData.Identifier ;
+        os << (unsigned)nodeid.NumericData.NamespaceIndex << ":" << (unsigned)nodeid.NumericData.Identifier ;
         break;
       }
 
       case OpcUa::NodeIDEncoding::EV_STRING:
       {
-        os << (unsigned)StringData.NamespaceIndex << ":" << StringData.Identifier;
+        os << (unsigned)nodeid.StringData.NamespaceIndex << ":" << nodeid.StringData.Identifier;
         break;
       }
 
       case OpcUa::NodeIDEncoding::EV_BYTE_STRING:
       {
-        os << (unsigned)BinaryData.NamespaceIndex << ":";
-        for (auto val : BinaryData.Identifier) {os << (unsigned)val; }
+        os << (unsigned)nodeid.BinaryData.NamespaceIndex << ":";
+        for (auto val : nodeid.BinaryData.Identifier) {os << (unsigned)val; }
         break;
       }
 
       case OpcUa::NodeIDEncoding::EV_GUID:
       {
-        os << (unsigned)GuidData.NamespaceIndex ;
-        const OpcUa::Guid& guid = GuidData.Identifier;
+        os << (unsigned)nodeid.GuidData.NamespaceIndex ;
+        const OpcUa::Guid& guid = nodeid.GuidData.Identifier;
         os << ":" << std::hex << guid.Data1 << "-" << guid.Data2 << "-" << guid.Data3;
         for (auto val : guid.Data4) {os << (unsigned)val; }
         break;
@@ -429,7 +457,7 @@ namespace OpcUa
       }
     }
     os << ")";
-    return os.str();
+    return os;
   }
 
   namespace Binary
