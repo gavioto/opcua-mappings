@@ -480,6 +480,20 @@ namespace OpcUa
     }
 
     template<>
+    void DataSerializer::Serialize<std::vector<uint32_t>>(const std::vector<uint32_t>& value)
+    {
+      SerializeContainer(*this, value);
+    }
+
+    template<>
+    void DataDeserializer::Deserialize<std::vector<uint32_t>>(std::vector<uint32_t>& value)
+    {
+      DeserializeContainer(*this, value);
+    }
+
+
+
+    template<>
     void DataSerializer::Serialize<std::vector<std::string>>(const std::vector<std::string>& value)
     {
       SerializeContainer(*this, value);

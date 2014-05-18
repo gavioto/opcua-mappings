@@ -57,6 +57,48 @@ namespace OpcUa
   {
   }
 
+  NodeAttributes::NodeAttributes(ObjectAttributes attr)
+  {
+    Header.TypeID = FourByteNodeID(NodeAttributesIds::ObjectAttr, 0);
+    ObjectAttr = attr;
+    //Header.Encoding = 
+  }
+  NodeAttributes::NodeAttributes(VariableAttributes attr)
+  {
+    Header.TypeID = FourByteNodeID(NodeAttributesIds::VariableAttr, 0);
+    VariableAttr = attr;
+  }
+  NodeAttributes::NodeAttributes(MethodAttributes attr)
+  {
+    Header.TypeID = FourByteNodeID(NodeAttributesIds::MethodAttr, 0);
+    MethodAttr = attr;
+  }
+  NodeAttributes::NodeAttributes(ObjectTypeAttributes attr)
+  {
+    Header.TypeID = FourByteNodeID(NodeAttributesIds::ObjectTypeAttr, 0);
+    ObjectTypeAttr = attr;
+  }
+  NodeAttributes::NodeAttributes(VariableTypeAttributes attr)
+  {
+    Header.TypeID = FourByteNodeID(NodeAttributesIds::VariableTypeAttr, 0);
+    VariableTypeAttr = attr;
+  }
+  NodeAttributes::NodeAttributes(ReferenceTypeAttributes attr)
+  {
+    Header.TypeID = FourByteNodeID(NodeAttributesIds::ReferenceTypeAttr, 0);
+    ReferenceTypeAttr = attr;
+  }
+  NodeAttributes::NodeAttributes(DataTypeAttributes attr)
+  {
+    Header.TypeID = FourByteNodeID(NodeAttributesIds::DataTypeAttr, 0);
+    DataTypeAttr = attr;
+  }
+  NodeAttributes::NodeAttributes(ViewAttributes attr)
+  {
+    Header.TypeID = FourByteNodeID(NodeAttributesIds::ViewAttr, 0);
+    ViewAttr = attr;
+  }
+
 
 
   namespace Binary
@@ -365,6 +407,582 @@ namespace OpcUa
       *this >> resp.Header;
       *this >> resp.Result;
     }
+
+    //
+    //AddNodeRequest
+    //
+
+    template<>
+    std::size_t RawSize<ObjectAttributes>(const ObjectAttributes& val)
+    {
+      return RawSize(val.Attributes) + 
+        RawSize(val.DisplayName) + 
+        RawSize(val.Description) + 
+        RawSize(val.EventNotifier) + 
+        RawSize(val.WriteMask) + 
+        RawSize(val.UserWriteMask)
+        ;
+    }
+
+    template<>
+    void DataSerializer::Serialize<ObjectAttributes>(const ObjectAttributes& val)
+    {
+      *this << val.Attributes;
+      *this << val.DisplayName;
+      *this << val.Description;
+      *this << val.EventNotifier;
+      *this << val.WriteMask;
+      *this << val.UserWriteMask;
+    }
+
+    template<>
+    void DataDeserializer::Deserialize<ObjectAttributes>(ObjectAttributes& val)
+    {
+      *this >> val.Attributes;
+      *this >> val.DisplayName;
+      *this >> val.Description;
+      *this >> val.EventNotifier;
+      *this >> val.WriteMask;
+      *this >> val.UserWriteMask;
+    }
+
+    template<>
+    std::size_t RawSize<VariableAttributes>(const VariableAttributes& val)
+    {
+      return RawSize(val.Attributes) + 
+        RawSize(val.DisplayName) + 
+        RawSize(val.Description) + 
+        RawSize(val.Value) + 
+        RawSize(val.Type) + 
+        RawSize(val.Rank) + 
+        RawSizeContainer(val.Dimensions) + 
+        RawSize(val.AccessLevel) + 
+        RawSize(val.UserAccessLevel) + 
+        RawSize(val.MinimumSamplingInterval) + 
+        RawSize(val.Historizing) + 
+        RawSize(val.WriteMask) + 
+        RawSize(val.UserWriteMask)
+        ;
+    }
+
+    template<>
+    void DataSerializer::Serialize<VariableAttributes>(const VariableAttributes& val)
+    {
+      *this << val.Attributes;
+      *this << val.DisplayName;
+      *this << val.Description;
+      *this << val.Value;
+      *this << val.Type;
+      *this << val.Rank;
+      *this << val.Dimensions;
+      *this << val.AccessLevel;
+      *this << val.UserAccessLevel;
+      *this << val.MinimumSamplingInterval;
+      *this << val.Historizing;
+      *this << val.WriteMask;
+      *this << val.UserWriteMask;
+    }
+
+    template<>
+    void DataDeserializer::Deserialize<VariableAttributes>(VariableAttributes& val)
+    {
+      *this >> val.Attributes;
+      *this >> val.DisplayName;
+      *this >> val.Description;
+      *this >> val.Value;
+      *this >> val.Type;
+      *this >> val.Rank;
+      *this >> val.Dimensions;
+      *this >> val.AccessLevel;
+      *this >> val.UserAccessLevel;
+      *this >> val.MinimumSamplingInterval;
+      *this >> val.Historizing;
+      *this >> val.WriteMask;
+      *this >> val.UserWriteMask;
+    }
+
+
+    template<>
+    std::size_t RawSize<MethodAttributes>(const MethodAttributes& val)
+    {
+      return RawSize(val.Attributes) + 
+        RawSize(val.DisplayName) + 
+        RawSize(val.Description) + 
+        RawSize(val.Executable) + 
+        RawSize(val.UserExecutable) + 
+        RawSize(val.WriteMask) + 
+        RawSize(val.UserWriteMask)
+        ;
+    }
+
+    template<>
+    void DataSerializer::Serialize<MethodAttributes>(const MethodAttributes& val)
+    {
+      *this << val.Attributes;
+      *this << val.DisplayName;
+      *this << val.Description;
+      *this << val.Executable;
+      *this << val.UserExecutable;
+      *this << val.WriteMask;
+      *this << val.UserWriteMask;
+    }
+
+    template<>
+    void DataDeserializer::Deserialize<MethodAttributes>(MethodAttributes& val)
+    {
+      *this >> val.Attributes;
+      *this >> val.DisplayName;
+      *this >> val.Description;
+      *this >> val.Executable;
+      *this >> val.UserExecutable;
+      *this >> val.WriteMask;
+      *this >> val.UserWriteMask;
+    }
+
+    template<>
+    std::size_t RawSize<ObjectTypeAttributes>(const ObjectTypeAttributes& val)
+    {
+      return RawSize(val.Attributes) + 
+        RawSize(val.DisplayName) + 
+        RawSize(val.Description) + 
+        RawSize(val.IsAbstract) + 
+        RawSize(val.WriteMask) + 
+        RawSize(val.UserWriteMask)
+        ;
+    }
+
+    template<>
+    void DataSerializer::Serialize<ObjectTypeAttributes>(const ObjectTypeAttributes& val)
+    {
+      *this << val.Attributes;
+      *this << val.DisplayName;
+      *this << val.Description;
+      *this << val.IsAbstract;
+      *this << val.WriteMask;
+      *this << val.UserWriteMask;
+    }
+
+    template<>
+    void DataDeserializer::Deserialize<ObjectTypeAttributes>(ObjectTypeAttributes& val)
+    {
+      *this >> val.Attributes;
+      *this >> val.DisplayName;
+      *this >> val.Description;
+      *this >> val.IsAbstract;
+      *this >> val.WriteMask;
+      *this >> val.UserWriteMask;
+    }
+
+
+    template<>
+    std::size_t RawSize<VariableTypeAttributes>(const VariableTypeAttributes& val)
+    {
+      return RawSize(val.Attributes) + 
+        RawSize(val.DisplayName) + 
+        RawSize(val.Description) + 
+        RawSize(val.Value) + 
+        RawSize(val.Type) + 
+        RawSize(val.Rank) + 
+        RawSizeContainer(val.Dimensions) + 
+        RawSize(val.IsAbstract) + 
+        RawSize(val.WriteMask) + 
+        RawSize(val.UserWriteMask)
+        ;
+    }
+
+    template<>
+    void DataSerializer::Serialize<VariableTypeAttributes>(const VariableTypeAttributes& val)
+    {
+      *this << val.Attributes;
+      *this << val.DisplayName;
+      *this << val.Description;
+      *this << val.Value;
+      *this << val.Type;
+      *this << val.Rank;
+      *this << val.Dimensions;
+      *this << val.IsAbstract;
+      *this << val.WriteMask;
+      *this << val.UserWriteMask;
+    }
+
+    template<>
+    void DataDeserializer::Deserialize<VariableTypeAttributes>(VariableTypeAttributes& val)
+    {
+      *this >> val.Attributes;
+      *this >> val.DisplayName;
+      *this >> val.Description;
+      *this >> val.Value;
+      *this >> val.Type;
+      *this >> val.Rank;
+      *this >> val.Dimensions;
+      *this >> val.IsAbstract;
+      *this >> val.WriteMask;
+      *this >> val.UserWriteMask;
+    }
+
+
+    template<>
+    std::size_t RawSize<ReferenceTypeAttributes>(const ReferenceTypeAttributes& val)
+    {
+      return RawSize(val.Attributes) + 
+        RawSize(val.DisplayName) + 
+        RawSize(val.Description) + 
+        RawSize(val.IsAbstract) + 
+        RawSize(val.Symmetric) + 
+        RawSize(val.InverseName) + 
+        RawSize(val.WriteMask) + 
+        RawSize(val.UserWriteMask)
+        ;
+    }
+
+    template<>
+    void DataSerializer::Serialize<ReferenceTypeAttributes>(const ReferenceTypeAttributes& val)
+    {
+      *this << val.Attributes;
+      *this << val.DisplayName;
+      *this << val.Description;
+      *this << val.IsAbstract;
+      *this << val.Symmetric;
+      *this << val.InverseName;
+      *this << val.WriteMask;
+      *this << val.UserWriteMask;
+    }
+
+    template<>
+    void DataDeserializer::Deserialize<ReferenceTypeAttributes>(ReferenceTypeAttributes& val)
+    {
+      *this >> val.Attributes;
+      *this >> val.DisplayName;
+      *this >> val.Description;
+      *this >> val.IsAbstract;
+      *this >> val.Symmetric;
+      *this >> val.InverseName;
+      *this >> val.WriteMask;
+      *this >> val.UserWriteMask;
+    }
+
+
+    template<>
+    std::size_t RawSize<DataTypeAttributes>(const DataTypeAttributes& val)
+    {
+      return RawSize(val.Attributes) + 
+        RawSize(val.DisplayName) + 
+        RawSize(val.Description) + 
+        RawSize(val.IsAbstract) + 
+        RawSize(val.WriteMask) + 
+        RawSize(val.UserWriteMask)
+        ;
+    }
+
+    template<>
+    void DataSerializer::Serialize<DataTypeAttributes>(const DataTypeAttributes& val)
+    {
+      *this << val.Attributes;
+      *this << val.DisplayName;
+      *this << val.Description;
+      *this << val.IsAbstract;
+      *this << val.WriteMask;
+      *this << val.UserWriteMask;
+    }
+
+    template<>
+    void DataDeserializer::Deserialize<DataTypeAttributes>(DataTypeAttributes& val)
+    {
+      *this >> val.Attributes;
+      *this >> val.DisplayName;
+      *this >> val.Description;
+      *this >> val.IsAbstract;
+      *this >> val.WriteMask;
+      *this >> val.UserWriteMask;
+    }
+
+    template<>
+    std::size_t RawSize<ViewAttributes>(const ViewAttributes& val)
+    {
+      return RawSize(val.Attributes) + 
+        RawSize(val.DisplayName) + 
+        RawSize(val.Description) + 
+        RawSize(val.ContainsNoLoops) + 
+        RawSize(val.WriteMask) + 
+        RawSize(val.UserWriteMask)
+        ;
+    }
+
+    template<>
+    void DataSerializer::Serialize<ViewAttributes>(const ViewAttributes& val)
+    {
+      *this << val.Attributes;
+      *this << val.DisplayName;
+      *this << val.Description;
+      *this << val.ContainsNoLoops;
+      *this << val.WriteMask;
+      *this << val.UserWriteMask;
+    }
+
+    template<>
+    void DataDeserializer::Deserialize<ViewAttributes>(ViewAttributes& val)
+    {
+      *this >> val.Attributes;
+      *this >> val.DisplayName;
+      *this >> val.Description;
+      *this >> val.ContainsNoLoops;
+      *this >> val.WriteMask;
+      *this >> val.UserWriteMask;
+    }
+
+
+
+
+    template<>
+    std::size_t RawSize<NodeAttributes>(const NodeAttributes& val)
+    {
+      size_t total = 0;
+      total += RawSize(val.Header);
+      if (val.Header.TypeID == FourByteNodeID(NodeAttributesIds::ObjectAttr, 0))
+      {
+        total += RawSize(val.ObjectAttr);
+      }
+      else if (val.Header.TypeID == FourByteNodeID(NodeAttributesIds::VariableAttr, 0))
+      {
+        total += RawSize(val.VariableAttr);
+      }
+      else if (val.Header.TypeID == FourByteNodeID(NodeAttributesIds::MethodAttr, 0))
+      {
+        total += RawSize(val.MethodAttr);
+      }
+      else if (val.Header.TypeID == FourByteNodeID(NodeAttributesIds::ObjectTypeAttr, 0))
+      {
+        total += RawSize(val.ObjectTypeAttr);
+      }
+      else if (val.Header.TypeID == FourByteNodeID(NodeAttributesIds::VariableTypeAttr, 0))
+      {
+        total += RawSize(val.VariableTypeAttr);
+      }
+      else if (val.Header.TypeID == FourByteNodeID(NodeAttributesIds::ReferenceTypeAttr, 0))
+      {
+        total += RawSize(val.ReferenceTypeAttr);
+      }
+      else if (val.Header.TypeID == FourByteNodeID(NodeAttributesIds::DataTypeAttr, 0))
+      {
+        total += RawSize(val.DataTypeAttr);
+      }
+      else if (val.Header.TypeID == FourByteNodeID(NodeAttributesIds::ViewAttr, 0))
+      {
+        total += RawSize(val.ViewAttr);
+      }
+      return total;
+    }
+
+    template<>
+    void DataSerializer::Serialize<NodeAttributes>(const NodeAttributes& val)
+    {
+      *this << val.Header;
+      if (val.Header.TypeID == FourByteNodeID(NodeAttributesIds::ObjectAttr, 0))
+      {
+        *this << val.ObjectAttr;
+      }
+      else if (val.Header.TypeID == FourByteNodeID(NodeAttributesIds::VariableAttr, 0))
+      {
+        *this << val.VariableAttr;
+      }
+      else if (val.Header.TypeID == FourByteNodeID(NodeAttributesIds::MethodAttr, 0))
+      {
+        *this << val.MethodAttr;
+      }
+      else if (val.Header.TypeID == FourByteNodeID(NodeAttributesIds::ObjectTypeAttr, 0))
+      {
+        *this << val.ObjectTypeAttr;
+      }
+      else if (val.Header.TypeID == FourByteNodeID(NodeAttributesIds::VariableTypeAttr, 0))
+      {
+        *this << val.VariableTypeAttr;
+      }
+      else if (val.Header.TypeID == FourByteNodeID(NodeAttributesIds::ReferenceTypeAttr, 0))
+      {
+        *this << val.ReferenceTypeAttr;
+      }
+      else if (val.Header.TypeID == FourByteNodeID(NodeAttributesIds::DataTypeAttr, 0))
+      {
+        *this << val.DataTypeAttr;
+      }
+      else if (val.Header.TypeID == FourByteNodeID(NodeAttributesIds::ViewAttr, 0))
+      {
+        *this << val.ViewAttr;
+      }
+    }
+
+    template<>
+    void DataDeserializer::Deserialize<NodeAttributes>(NodeAttributes& val)
+    {
+      *this >> val.Header;
+      if (val.Header.TypeID == FourByteNodeID(NodeAttributesIds::ObjectAttr, 0))
+      {
+        *this >> val.ObjectAttr;
+      }
+      else if (val.Header.TypeID == FourByteNodeID(NodeAttributesIds::VariableAttr, 0))
+      {
+        *this >> val.VariableAttr;
+      }
+      else if (val.Header.TypeID == FourByteNodeID(NodeAttributesIds::MethodAttr, 0))
+      {
+        *this >> val.MethodAttr;
+      }
+      else if (val.Header.TypeID == FourByteNodeID(NodeAttributesIds::ObjectTypeAttr, 0))
+      {
+        *this >> val.ObjectTypeAttr;
+      }
+      else if (val.Header.TypeID == FourByteNodeID(NodeAttributesIds::VariableTypeAttr, 0))
+      {
+        *this >> val.VariableTypeAttr;
+      }
+      else if (val.Header.TypeID == FourByteNodeID(NodeAttributesIds::ReferenceTypeAttr, 0))
+      {
+        *this >> val.ReferenceTypeAttr;
+      }
+      else if (val.Header.TypeID == FourByteNodeID(NodeAttributesIds::DataTypeAttr, 0))
+      {
+        *this >> val.DataTypeAttr;
+      }
+      else if (val.Header.TypeID == FourByteNodeID(NodeAttributesIds::ViewAttr, 0))
+      {
+        *this >> val.ViewAttr;
+      }
+    }
+
+    template<>
+    std::size_t RawSize<AddNodesItem>(const AddNodesItem& resp)
+    {
+      return RawSize(resp.ParentNodeId) + 
+        RawSize(resp.ReferenceTypeId) +
+        RawSize(resp.RequestedNewNodeID) +
+        RawSize(resp.BrowseName) +
+        RawSize(resp.Class) +
+        RawSize(resp.Attributes) +
+        RawSize(resp.TypeDefinition);
+    }
+
+    template<>
+    void DataSerializer::Serialize<AddNodesItem>(const AddNodesItem& resp)
+    {
+      *this << resp.ParentNodeId;
+      *this << resp.ReferenceTypeId;
+      *this << resp.RequestedNewNodeID;
+      *this << resp.BrowseName;
+      *this << resp.Class;
+      *this << resp.Attributes;
+      *this << resp.TypeDefinition;
+    }
+
+    template<>
+    void DataDeserializer::Deserialize<AddNodesItem>(AddNodesItem& resp)
+    {
+      *this >> resp.ParentNodeId;
+      *this >> resp.ReferenceTypeId;
+      *this >> resp.RequestedNewNodeID;
+      *this >> resp.BrowseName;
+      *this >> resp.Class;
+      *this >> resp.Attributes;
+      *this >> resp.TypeDefinition;
+    }
+
+
+    template<>
+    void DataDeserializer::Deserialize<std::vector<AddNodesItem>>(std::vector<AddNodesItem>& ack)
+    {
+      DeserializeContainer(*this, ack);
+    }
+
+    template<>
+    void DataSerializer::Serialize<std::vector<AddNodesItem>>(const std::vector<AddNodesItem>& ack)
+    {
+      SerializeContainer(*this, ack);
+    }
+
+
+
+    template<>
+    std::size_t RawSize<AddNodesRequest>(const AddNodesRequest& resp)
+    {
+      return RawSize(resp.Header) + RawSizeContainer(resp.NodesToAdd);
+    }
+
+    template<>
+    void DataSerializer::Serialize<AddNodesRequest>(const AddNodesRequest& resp)
+    {
+      *this << resp.Header;
+      *this << resp.NodesToAdd;
+    }
+
+    template<>
+    void DataDeserializer::Deserialize<AddNodesRequest>(AddNodesRequest& resp)
+    {
+      *this >> resp.Header;
+      *this >> resp.NodesToAdd;
+    }
+
+    template<>
+    std::size_t RawSize<AddNodesResult>(const AddNodesResult& resp)
+    {
+      return RawSize(resp.Status) + RawSize(resp.AddedNodeID);
+    }
+
+    template<>
+    void DataSerializer::Serialize<AddNodesResult>(const AddNodesResult& resp)
+    {
+      *this << resp.Status;
+      *this << resp.AddedNodeID;
+    }
+
+    template<>
+    void DataDeserializer::Deserialize<AddNodesResult>(AddNodesResult& resp)
+    {
+      *this >> resp.Status;
+      *this >> resp.AddedNodeID;
+    }
+
+
+    template<>
+    void DataDeserializer::Deserialize<std::vector<AddNodesResult>>(std::vector<AddNodesResult>& ack)
+    {
+      DeserializeContainer(*this, ack);
+    }
+
+    template<>
+    void DataSerializer::Serialize<std::vector<AddNodesResult>>(const std::vector<AddNodesResult>& ack)
+    {
+      SerializeContainer(*this, ack);
+    }
+
+
+
+
+
+
+    template<>
+    std::size_t RawSize<AddNodesResponse>(const AddNodesResponse& resp)
+    {
+      return RawSize(resp.Header) + RawSizeContainer(resp.results);
+    }
+
+    template<>
+    void DataSerializer::Serialize<AddNodesResponse>(const AddNodesResponse& resp)
+    {
+      *this << resp.Header;
+      *this << resp.results;
+      *this << resp.Diagnostics;
+    }
+
+    template<>
+    void DataDeserializer::Deserialize<AddNodesResponse>(AddNodesResponse& resp)
+    {
+      *this >> resp.Header;
+      *this >> resp.results;
+      *this >> resp.Diagnostics;
+    }
+
+
+
+
 
   } // namespace Binary
 } // namespace OpcUa
