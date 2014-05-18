@@ -271,6 +271,33 @@ namespace OpcUa
   };
 
 
+  //
+  // AddReference
+  //
+
+  struct AddReferencesItem
+  {
+    NodeID SourceNodeID;
+    NodeID ReferenceTypeId;
+    bool IsForward;
+    std::string TargetServerUri;
+    NodeID TargetNodeID;
+    NodeClass TargetNodeClass;
+  };
+
+  struct AddReferencesRequest
+  {
+    RequestHeader Header;
+    std::vector<AddReferencesItem> ReferencesToAdd;
+  };
+
+  struct AddReferencesResponse
+  {
+    ResponseHeader Header;
+    std::vector<StatusCode> Results;
+    DiagnosticInfoList Diagnostics;
+  };
+
 } // namespace OpcUa
 
 #endif // __OPC_UA_BINARY_ATTRIBUTES_H__

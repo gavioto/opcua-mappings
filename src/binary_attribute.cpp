@@ -961,7 +961,7 @@ namespace OpcUa
     template<>
     std::size_t RawSize<AddNodesResponse>(const AddNodesResponse& resp)
     {
-      return RawSize(resp.Header) + RawSizeContainer(resp.results);
+      return RawSize(resp.Header) + RawSizeContainer(resp.results) + RawSize(resp.Diagnostics);
     }
 
     template<>
@@ -980,6 +980,111 @@ namespace OpcUa
       *this >> resp.Diagnostics;
     }
 
+  
+    //
+    // AddReferences
+    //
+
+
+
+
+    template<>
+    std::size_t RawSize<AddReferencesResponse>(const AddReferencesResponse& resp)
+    {
+      return RawSize(resp.Header) + RawSizeContainer(resp.Results) + RawSize(resp.Diagnostics);
+    }
+
+    template<>
+    void DataSerializer::Serialize<AddReferencesResponse>(const AddReferencesResponse& resp)
+    {
+      *this << resp.Header;
+      *this << resp.Results;
+      *this << resp.Diagnostics;
+    }
+
+    template<>
+    void DataDeserializer::Deserialize<AddReferencesResponse>(AddReferencesResponse& resp)
+    {
+      *this >> resp.Header;
+      *this >> resp.Results;
+      *this >> resp.Diagnostics;
+    }
+
+     template<>
+    std::size_t RawSize<AddReferencesItem>(const AddReferencesItem& val)
+    {
+      return RawSize(val.SourceNodeID) + 
+        RawSize(val.ReferenceTypeId) + 
+        RawSize(val.IsForward) + 
+        RawSize(val.TargetServerUri) + 
+        RawSize(val.TargetNodeID) + 
+        RawSize(val.TargetNodeClass)
+        ;
+    }
+
+    template<>
+    void DataSerializer::Serialize<AddReferencesItem>(const AddReferencesItem& val)
+    {
+      *this << val.SourceNodeID;
+      *this << val.ReferenceTypeId;
+      *this << val.IsForward;
+      *this << val.TargetServerUri;
+      *this << val.TargetNodeID;
+      *this << val.TargetNodeClass;
+    }
+
+    template<>
+    void DataDeserializer::Deserialize<AddReferencesItem>(AddReferencesItem& val)
+    {
+      *this >> val.SourceNodeID;
+      *this >> val.ReferenceTypeId;
+      *this >> val.IsForward;
+      *this >> val.TargetServerUri;
+      *this >> val.TargetNodeID;
+      *this >> val.TargetNodeClass;
+    }
+
+    template<>
+    std::size_t RawSize(const std::vector<AddReferencesItem>& ack)
+    {
+      return RawSizeContainer(ack);
+    }
+
+
+
+    template<>
+    void DataDeserializer::Deserialize<std::vector<AddReferencesItem>>(std::vector<AddReferencesItem>& ack)
+    {
+      DeserializeContainer(*this, ack);
+    }
+
+    template<>
+    void DataSerializer::Serialize<std::vector<AddReferencesItem>>(const std::vector<AddReferencesItem>& ack)
+    {
+      SerializeContainer(*this, ack);
+    }
+
+     template<>
+    std::size_t RawSize<AddReferencesRequest>(const AddReferencesRequest& val)
+    {
+      return RawSize(val.Header) + 
+        RawSizeContainer(val.ReferencesToAdd)
+        ;
+    }
+
+    template<>
+    void DataSerializer::Serialize<AddReferencesRequest>(const AddReferencesRequest& val)
+    {
+      *this << val.Header;
+      *this << val.ReferencesToAdd;
+    }
+
+    template<>
+    void DataDeserializer::Deserialize<AddReferencesRequest>(AddReferencesRequest& val)
+    {
+      *this >> val.Header;
+      *this >> val.ReferencesToAdd;
+    }
 
 
 
