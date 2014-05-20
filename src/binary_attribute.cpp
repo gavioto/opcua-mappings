@@ -99,6 +99,26 @@ namespace OpcUa
     ViewAttr = attr;
   }
 
+  AddNodesRequest::AddNodesRequest()
+    : TypeID(ADD_NODES_REQUEST)
+  {
+  }
+
+  AddNodesResponse::AddNodesResponse()
+    : TypeID(ADD_NODES_RESPONSE)
+  {
+  }
+
+ AddReferencesRequest::AddReferencesRequest()
+    : TypeID(ADD_NODES_REQUEST)
+  {
+  }
+
+  AddReferencesResponse::AddReferencesResponse()
+    : TypeID(ADD_NODES_RESPONSE)
+  {
+  }
+
 
 
   namespace Binary
@@ -885,6 +905,12 @@ namespace OpcUa
       *this >> resp.TypeDefinition;
     }
 
+    template<>
+    std::size_t RawSize(const std::vector<AddNodesItem>& ack)
+    {
+      return RawSizeContainer(ack);
+    }
+
 
     template<>
     void DataDeserializer::Deserialize<std::vector<AddNodesItem>>(std::vector<AddNodesItem>& ack)
@@ -898,26 +924,46 @@ namespace OpcUa
       SerializeContainer(*this, ack);
     }
 
+    template<>
+    std::size_t RawSize<AddNodesParameters>(const AddNodesParameters& val)
+    {
+      return RawSize(val.NodesToAdd);
+    }
+
+    template<>
+    void DataSerializer::Serialize<AddNodesParameters>(const AddNodesParameters& val)
+    {
+      *this << val.NodesToAdd;
+    }
+
+    template<>
+    void DataDeserializer::Deserialize<AddNodesParameters>(AddNodesParameters& resp)
+    {
+      *this >> resp.NodesToAdd;
+    }
+
 
 
     template<>
     std::size_t RawSize<AddNodesRequest>(const AddNodesRequest& resp)
     {
-      return RawSize(resp.Header) + RawSizeContainer(resp.NodesToAdd);
+      return RawSize(resp.TypeID) + RawSize(resp.Header) + RawSize(resp.Parameters);
     }
 
     template<>
     void DataSerializer::Serialize<AddNodesRequest>(const AddNodesRequest& resp)
     {
+      *this << resp.TypeID;
       *this << resp.Header;
-      *this << resp.NodesToAdd;
+      *this << resp.Parameters;
     }
 
     template<>
     void DataDeserializer::Deserialize<AddNodesRequest>(AddNodesRequest& resp)
     {
+      *this >> resp.TypeID;
       *this >> resp.Header;
-      *this >> resp.NodesToAdd;
+      *this >> resp.Parameters;
     }
 
     template<>
@@ -961,12 +1007,13 @@ namespace OpcUa
     template<>
     std::size_t RawSize<AddNodesResponse>(const AddNodesResponse& resp)
     {
-      return RawSize(resp.Header) + RawSizeContainer(resp.results) + RawSize(resp.Diagnostics);
+      return RawSize(resp.TypeID) + RawSize(resp.Header) + RawSizeContainer(resp.results) + RawSize(resp.Diagnostics);
     }
 
     template<>
     void DataSerializer::Serialize<AddNodesResponse>(const AddNodesResponse& resp)
     {
+      *this << resp.TypeID;
       *this << resp.Header;
       *this << resp.results;
       *this << resp.Diagnostics;
@@ -975,6 +1022,7 @@ namespace OpcUa
     template<>
     void DataDeserializer::Deserialize<AddNodesResponse>(AddNodesResponse& resp)
     {
+      *this >> resp.TypeID;
       *this >> resp.Header;
       *this >> resp.results;
       *this >> resp.Diagnostics;
@@ -991,12 +1039,13 @@ namespace OpcUa
     template<>
     std::size_t RawSize<AddReferencesResponse>(const AddReferencesResponse& resp)
     {
-      return RawSize(resp.Header) + RawSizeContainer(resp.Results) + RawSize(resp.Diagnostics);
+      return RawSize(resp.TypeID) + RawSize(resp.Header) + RawSizeContainer(resp.Results) + RawSize(resp.Diagnostics);
     }
 
     template<>
     void DataSerializer::Serialize<AddReferencesResponse>(const AddReferencesResponse& resp)
     {
+      *this << resp.TypeID;
       *this << resp.Header;
       *this << resp.Results;
       *this << resp.Diagnostics;
@@ -1005,6 +1054,7 @@ namespace OpcUa
     template<>
     void DataDeserializer::Deserialize<AddReferencesResponse>(AddReferencesResponse& resp)
     {
+      *this >> resp.TypeID;
       *this >> resp.Header;
       *this >> resp.Results;
       *this >> resp.Diagnostics;
@@ -1064,26 +1114,50 @@ namespace OpcUa
       SerializeContainer(*this, ack);
     }
 
+
+     template<>
+    std::size_t RawSize<AddReferencesParameters>(const AddReferencesParameters& val)
+    {
+      return RawSizeContainer(val.ReferencesToAdd);
+    }
+
+    template<>
+    void DataSerializer::Serialize<AddReferencesParameters>(const AddReferencesParameters& val)
+    {
+      *this << val.ReferencesToAdd;
+    }
+
+    template<>
+    void DataDeserializer::Deserialize<AddReferencesParameters>(AddReferencesParameters& val)
+    {
+      *this >> val.ReferencesToAdd;
+    }
+
+
+
+
      template<>
     std::size_t RawSize<AddReferencesRequest>(const AddReferencesRequest& val)
     {
-      return RawSize(val.Header) + 
-        RawSizeContainer(val.ReferencesToAdd)
+      return RawSize(val.TypeID) +  RawSize(val.Header) + 
+        RawSize(val.Parameters)
         ;
     }
 
     template<>
     void DataSerializer::Serialize<AddReferencesRequest>(const AddReferencesRequest& val)
     {
+      *this << val.TypeID;
       *this << val.Header;
-      *this << val.ReferencesToAdd;
+      *this << val.Parameters;
     }
 
     template<>
     void DataDeserializer::Deserialize<AddReferencesRequest>(AddReferencesRequest& val)
     {
+      *this >> val.TypeID;
       *this >> val.Header;
-      *this >> val.ReferencesToAdd;
+      *this >> val.Parameters;
     }
 
 

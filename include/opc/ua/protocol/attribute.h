@@ -251,10 +251,17 @@ namespace OpcUa
 
   };
 
+  struct AddNodesParameters
+  {
+    std::vector<AddNodesItem> NodesToAdd;
+  };
+
   struct AddNodesRequest
   {
+    NodeID TypeID;
     RequestHeader Header;
-    std::vector<AddNodesItem> NodesToAdd;
+    AddNodesParameters Parameters;
+    AddNodesRequest();
   };
 
   struct AddNodesResult
@@ -262,12 +269,14 @@ namespace OpcUa
     StatusCode Status;
     NodeID AddedNodeID;
   };
-
+  
   struct AddNodesResponse
   {
+    NodeID TypeID;
     ResponseHeader Header;
     std::vector<AddNodesResult> results;
     DiagnosticInfoList Diagnostics;
+    AddNodesResponse();
   };
 
 
@@ -285,17 +294,28 @@ namespace OpcUa
     NodeClass TargetNodeClass;
   };
 
+  struct AddReferencesParameters
+  {
+    std::vector<AddReferencesItem> ReferencesToAdd;
+  };
+
   struct AddReferencesRequest
   {
+    NodeID TypeID;
     RequestHeader Header;
-    std::vector<AddReferencesItem> ReferencesToAdd;
+    AddReferencesParameters Parameters;
+
+    AddReferencesRequest();
   };
 
   struct AddReferencesResponse
   {
+    NodeID TypeID;
     ResponseHeader Header;
     std::vector<StatusCode> Results;
     DiagnosticInfoList Diagnostics;
+
+    AddReferencesResponse();
   };
 
 } // namespace OpcUa
