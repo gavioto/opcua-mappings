@@ -360,6 +360,7 @@ opcuainclude_HEADERS = \
   include/opc/ua/message_identifiers.h \
   include/opc/ua/node_classes.h \
   include/opc/ua/object_ids.h \
+  include/opc/ua/expanded_object_ids.h \
   include/opc/ua/reference_ids.h \
   include/opc/ua/strings.h \
   include/opc/ua/status_codes.h \
