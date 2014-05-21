@@ -14,6 +14,7 @@
 #include <opc/ua/protocol/types.h>
 #include <opc/ua/protocol/attribute.h>
 #include <opc/ua/attribute_ids.h>
+#include <opc/ua/expanded_object_ids.h>
 
 #include <algorithm>
 #include <memory>
@@ -59,43 +60,43 @@ namespace OpcUa
 
   NodeAttributes::NodeAttributes(ObjectAttributes attr)
   {
-    Header.TypeID = FourByteNodeID(NodeAttributesIds::ObjectAttr, 0);
+    Header.TypeID = ExpandedObjectID::ObjectAttribute;
     ObjectAttr = attr;
     //Header.Encoding = 
   }
   NodeAttributes::NodeAttributes(VariableAttributes attr)
   {
-    Header.TypeID = FourByteNodeID(NodeAttributesIds::VariableAttr, 0);
+    Header.TypeID = ExpandedObjectID::VariableAttribute;
     VariableAttr = attr;
   }
   NodeAttributes::NodeAttributes(MethodAttributes attr)
   {
-    Header.TypeID = FourByteNodeID(NodeAttributesIds::MethodAttr, 0);
+    Header.TypeID = ExpandedObjectID::MethodAttribute;
     MethodAttr = attr;
   }
   NodeAttributes::NodeAttributes(ObjectTypeAttributes attr)
   {
-    Header.TypeID = FourByteNodeID(NodeAttributesIds::ObjectTypeAttr, 0);
+    Header.TypeID = ExpandedObjectID::ObjectTypeAttribute;
     ObjectTypeAttr = attr;
   }
   NodeAttributes::NodeAttributes(VariableTypeAttributes attr)
   {
-    Header.TypeID = FourByteNodeID(NodeAttributesIds::VariableTypeAttr, 0);
+    Header.TypeID = ExpandedObjectID::VariableTypeAttribute;
     VariableTypeAttr = attr;
   }
   NodeAttributes::NodeAttributes(ReferenceTypeAttributes attr)
   {
-    Header.TypeID = FourByteNodeID(NodeAttributesIds::ReferenceTypeAttr, 0);
+    Header.TypeID = ExpandedObjectID::ReferenceTypeAttribute;
     ReferenceTypeAttr = attr;
   }
   NodeAttributes::NodeAttributes(DataTypeAttributes attr)
   {
-    Header.TypeID = FourByteNodeID(NodeAttributesIds::DataTypeAttr, 0);
+    Header.TypeID = ExpandedObjectID::DataTypeAttribute;
     DataTypeAttr = attr;
   }
   NodeAttributes::NodeAttributes(ViewAttributes attr)
   {
-    Header.TypeID = FourByteNodeID(NodeAttributesIds::ViewAttr, 0);
+    Header.TypeID = ExpandedObjectID::ViewAttribute;
     ViewAttr = attr;
   }
 
@@ -758,35 +759,35 @@ namespace OpcUa
     {
       size_t total = 0;
       total += RawSize(val.Header);
-      if (val.Header.TypeID == FourByteNodeID(NodeAttributesIds::ObjectAttr, 0))
+      if (val.Header.TypeID == ExpandedObjectID::ObjectAttribute)
       {
         total += RawSize(val.ObjectAttr);
       }
-      else if (val.Header.TypeID == FourByteNodeID(NodeAttributesIds::VariableAttr, 0))
+      else if (val.Header.TypeID == ExpandedObjectID::VariableAttribute)
       {
         total += RawSize(val.VariableAttr);
       }
-      else if (val.Header.TypeID == FourByteNodeID(NodeAttributesIds::MethodAttr, 0))
+      else if (val.Header.TypeID == ExpandedObjectID::MethodAttribute)
       {
         total += RawSize(val.MethodAttr);
       }
-      else if (val.Header.TypeID == FourByteNodeID(NodeAttributesIds::ObjectTypeAttr, 0))
+      else if (val.Header.TypeID == ExpandedObjectID::ObjectTypeAttribute)
       {
         total += RawSize(val.ObjectTypeAttr);
       }
-      else if (val.Header.TypeID == FourByteNodeID(NodeAttributesIds::VariableTypeAttr, 0))
+      else if (val.Header.TypeID == ExpandedObjectID::VariableTypeAttribute)
       {
         total += RawSize(val.VariableTypeAttr);
       }
-      else if (val.Header.TypeID == FourByteNodeID(NodeAttributesIds::ReferenceTypeAttr, 0))
+      else if (val.Header.TypeID == ExpandedObjectID::ReferenceTypeAttribute)
       {
         total += RawSize(val.ReferenceTypeAttr);
       }
-      else if (val.Header.TypeID == FourByteNodeID(NodeAttributesIds::DataTypeAttr, 0))
+      else if (val.Header.TypeID == ExpandedObjectID::DataTypeAttribute)
       {
         total += RawSize(val.DataTypeAttr);
       }
-      else if (val.Header.TypeID == FourByteNodeID(NodeAttributesIds::ViewAttr, 0))
+      else if (val.Header.TypeID == ExpandedObjectID::ViewAttribute)
       {
         total += RawSize(val.ViewAttr);
       }
@@ -797,35 +798,35 @@ namespace OpcUa
     void DataSerializer::Serialize<NodeAttributes>(const NodeAttributes& val)
     {
       *this << val.Header;
-      if (val.Header.TypeID == FourByteNodeID(NodeAttributesIds::ObjectAttr, 0))
+      if (val.Header.TypeID == ExpandedObjectID::ObjectAttribute)
       {
         *this << val.ObjectAttr;
       }
-      else if (val.Header.TypeID == FourByteNodeID(NodeAttributesIds::VariableAttr, 0))
+      else if (val.Header.TypeID == ExpandedObjectID::VariableAttribute)
       {
         *this << val.VariableAttr;
       }
-      else if (val.Header.TypeID == FourByteNodeID(NodeAttributesIds::MethodAttr, 0))
+      else if (val.Header.TypeID == ExpandedObjectID::MethodAttribute)
       {
         *this << val.MethodAttr;
       }
-      else if (val.Header.TypeID == FourByteNodeID(NodeAttributesIds::ObjectTypeAttr, 0))
+      else if (val.Header.TypeID == ExpandedObjectID::ObjectTypeAttribute)
       {
         *this << val.ObjectTypeAttr;
       }
-      else if (val.Header.TypeID == FourByteNodeID(NodeAttributesIds::VariableTypeAttr, 0))
+      else if (val.Header.TypeID == ExpandedObjectID::VariableTypeAttribute)
       {
         *this << val.VariableTypeAttr;
       }
-      else if (val.Header.TypeID == FourByteNodeID(NodeAttributesIds::ReferenceTypeAttr, 0))
+      else if (val.Header.TypeID == ExpandedObjectID::ReferenceTypeAttribute)
       {
         *this << val.ReferenceTypeAttr;
       }
-      else if (val.Header.TypeID == FourByteNodeID(NodeAttributesIds::DataTypeAttr, 0))
+      else if (val.Header.TypeID == ExpandedObjectID::DataTypeAttribute)
       {
         *this << val.DataTypeAttr;
       }
-      else if (val.Header.TypeID == FourByteNodeID(NodeAttributesIds::ViewAttr, 0))
+      else if (val.Header.TypeID == ExpandedObjectID::ViewAttribute)
       {
         *this << val.ViewAttr;
       }
@@ -835,35 +836,35 @@ namespace OpcUa
     void DataDeserializer::Deserialize<NodeAttributes>(NodeAttributes& val)
     {
       *this >> val.Header;
-      if (val.Header.TypeID == FourByteNodeID(NodeAttributesIds::ObjectAttr, 0))
+      if (val.Header.TypeID == ExpandedObjectID::ObjectAttribute)
       {
         *this >> val.ObjectAttr;
       }
-      else if (val.Header.TypeID == FourByteNodeID(NodeAttributesIds::VariableAttr, 0))
+      else if (val.Header.TypeID == ExpandedObjectID::VariableAttribute)
       {
         *this >> val.VariableAttr;
       }
-      else if (val.Header.TypeID == FourByteNodeID(NodeAttributesIds::MethodAttr, 0))
+      else if (val.Header.TypeID == ExpandedObjectID::MethodAttribute)
       {
         *this >> val.MethodAttr;
       }
-      else if (val.Header.TypeID == FourByteNodeID(NodeAttributesIds::ObjectTypeAttr, 0))
+      else if (val.Header.TypeID == ExpandedObjectID::ObjectTypeAttribute)
       {
         *this >> val.ObjectTypeAttr;
       }
-      else if (val.Header.TypeID == FourByteNodeID(NodeAttributesIds::VariableTypeAttr, 0))
+      else if (val.Header.TypeID == ExpandedObjectID::VariableTypeAttribute)
       {
         *this >> val.VariableTypeAttr;
       }
-      else if (val.Header.TypeID == FourByteNodeID(NodeAttributesIds::ReferenceTypeAttr, 0))
+      else if (val.Header.TypeID == ExpandedObjectID::ReferenceTypeAttribute)
       {
         *this >> val.ReferenceTypeAttr;
       }
-      else if (val.Header.TypeID == FourByteNodeID(NodeAttributesIds::DataTypeAttr, 0))
+      else if (val.Header.TypeID == ExpandedObjectID::DataTypeAttribute)
       {
         *this >> val.DataTypeAttr;
       }
-      else if (val.Header.TypeID == FourByteNodeID(NodeAttributesIds::ViewAttr, 0))
+      else if (val.Header.TypeID == ExpandedObjectID::ViewAttribute)
       {
         *this >> val.ViewAttr;
       }

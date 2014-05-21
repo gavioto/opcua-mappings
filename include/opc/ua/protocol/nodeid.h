@@ -13,6 +13,7 @@
 
 #include <opc/ua/message_identifiers.h>
 #include <opc/ua/object_ids.h>
+#include <opc/ua/expanded_object_ids.h>
 #include <opc/ua/protocol/guid.h>
 #include <opc/ua/reference_ids.h>
 
@@ -122,6 +123,7 @@ namespace OpcUa
     NodeID(MessageID messageID);
     NodeID(ReferenceID referenceID);
     NodeID(ObjectID objectID);
+    NodeID(ExpandedObjectID objectID);
     NodeID(uint16_t index, uint32_t integerId);
     NodeID(uint16_t index, std::string stringId);
 
@@ -145,15 +147,23 @@ namespace OpcUa
       return *this;
     }
 
+    NodeID& operator= (ExpandedObjectID objectID)
+    {
+      *this = NodeID(objectID);
+      return *this;
+    }
+
     bool operator== (const NodeID& node) const;
     bool operator== (MessageID messageID) const;
     bool operator== (ReferenceID referenceID) const;
     bool operator== (ObjectID objectID) const;
+    bool operator== (ExpandedObjectID objectID) const;
 
     bool operator!= (const NodeID& node) const;
     bool operator!= (MessageID messageID) const;
     bool operator!= (ReferenceID referenceID) const;
     bool operator!= (ObjectID objectID) const;
+    bool operator!= (ExpandedObjectID objectID) const;
 
     bool operator< (const NodeID& node) const;
 

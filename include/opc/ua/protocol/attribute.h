@@ -19,17 +19,6 @@
 
 namespace OpcUa
 {
-  struct NodeAttributesIds
-  {
-    static const uint16_t ObjectAttr = 354;
-    static const uint16_t VariableAttr = 357;
-    static const uint16_t MethodAttr = 360;
-    static const uint16_t ObjectTypeAttr = 363;
-    static const uint16_t VariableTypeAttr = 366 ;
-    static const uint16_t ReferenceTypeAttr = 369;
-    static const uint16_t DataTypeAttr = 372;
-    static const uint16_t ViewAttr = 375;
-  };
 
   struct AttributeValueID
   {

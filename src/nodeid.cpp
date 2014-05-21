@@ -269,6 +269,13 @@ namespace OpcUa
     NumericData.Identifier = static_cast<uint32_t>(objectID);
   }
 
+  NodeID::NodeID(ExpandedObjectID objectID)
+    : Encoding(EV_FOUR_BYTE)
+    , ServerIndex(0)
+  {
+    FourByteData.Identifier = static_cast<uint32_t>(objectID);
+  }
+
   MessageID GetMessageID(const NodeID& id)
   {
     return static_cast<MessageID>(id.GetIntegerIdentifier());
@@ -375,6 +382,12 @@ namespace OpcUa
     return !(*this == objectID);
   }
 
+  bool NodeID::operator!= (ExpandedObjectID objectID) const
+  {
+    return !(*this == objectID);
+  }
+
+
 
   bool NodeID::operator== (MessageID messageID) const
   {
@@ -391,7 +404,12 @@ namespace OpcUa
     return *this == NodeID(messageID);
   }
 
-  OpcUa::NodeID NodeID::ParseFromString(const std::string& str, uint16_t default_ns)
+  bool NodeID::operator== (ExpandedObjectID messageID) const
+  {
+    return *this == NodeID(messageID);
+  }
+
+ OpcUa::NodeID NodeID::ParseFromString(const std::string& str, uint16_t default_ns)
   {
     std::size_t found = str.find(":");
     if (found != std::string::npos)
