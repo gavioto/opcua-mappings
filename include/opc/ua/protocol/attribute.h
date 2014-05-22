@@ -19,17 +19,6 @@
 
 namespace OpcUa
 {
-  struct NodeAttributesIds
-  {
-    static const uint16_t ObjectAttr = 354;
-    static const uint16_t VariableAttr = 357;
-    static const uint16_t MethodAttr = 360;
-    static const uint16_t ObjectTypeAttr = 363;
-    static const uint16_t VariableTypeAttr = 366 ;
-    static const uint16_t ReferenceTypeAttr = 369;
-    static const uint16_t DataTypeAttr = 372;
-    static const uint16_t ViewAttr = 375;
-  };
 
   struct AttributeValueID
   {
@@ -251,10 +240,17 @@ namespace OpcUa
 
   };
 
+  struct AddNodesParameters
+  {
+    std::vector<AddNodesItem> NodesToAdd;
+  };
+
   struct AddNodesRequest
   {
+    NodeID TypeID;
     RequestHeader Header;
-    std::vector<AddNodesItem> NodesToAdd;
+    AddNodesParameters Parameters;
+    AddNodesRequest();
   };
 
   struct AddNodesResult
@@ -262,12 +258,14 @@ namespace OpcUa
     StatusCode Status;
     NodeID AddedNodeID;
   };
-
+  
   struct AddNodesResponse
   {
+    NodeID TypeID;
     ResponseHeader Header;
     std::vector<AddNodesResult> results;
     DiagnosticInfoList Diagnostics;
+    AddNodesResponse();
   };
 
 
@@ -285,17 +283,28 @@ namespace OpcUa
     NodeClass TargetNodeClass;
   };
 
+  struct AddReferencesParameters
+  {
+    std::vector<AddReferencesItem> ReferencesToAdd;
+  };
+
   struct AddReferencesRequest
   {
+    NodeID TypeID;
     RequestHeader Header;
-    std::vector<AddReferencesItem> ReferencesToAdd;
+    AddReferencesParameters Parameters;
+
+    AddReferencesRequest();
   };
 
   struct AddReferencesResponse
   {
+    NodeID TypeID;
     ResponseHeader Header;
     std::vector<StatusCode> Results;
     DiagnosticInfoList Diagnostics;
+
+    AddReferencesResponse();
   };
 
 } // namespace OpcUa

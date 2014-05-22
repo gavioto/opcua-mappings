@@ -14,6 +14,7 @@
 #include <opc/ua/protocol/types.h>
 #include <opc/ua/protocol/attribute.h>
 #include <opc/ua/attribute_ids.h>
+#include <opc/ua/expanded_object_ids.h>
 
 #include <algorithm>
 #include <memory>
@@ -59,44 +60,64 @@ namespace OpcUa
 
   NodeAttributes::NodeAttributes(ObjectAttributes attr)
   {
-    Header.TypeID = FourByteNodeID(NodeAttributesIds::ObjectAttr, 0);
+    Header.TypeID = ExpandedObjectID::ObjectAttribute;
     ObjectAttr = attr;
     //Header.Encoding = 
   }
   NodeAttributes::NodeAttributes(VariableAttributes attr)
   {
-    Header.TypeID = FourByteNodeID(NodeAttributesIds::VariableAttr, 0);
+    Header.TypeID = ExpandedObjectID::VariableAttribute;
     VariableAttr = attr;
   }
   NodeAttributes::NodeAttributes(MethodAttributes attr)
   {
-    Header.TypeID = FourByteNodeID(NodeAttributesIds::MethodAttr, 0);
+    Header.TypeID = ExpandedObjectID::MethodAttribute;
     MethodAttr = attr;
   }
   NodeAttributes::NodeAttributes(ObjectTypeAttributes attr)
   {
-    Header.TypeID = FourByteNodeID(NodeAttributesIds::ObjectTypeAttr, 0);
+    Header.TypeID = ExpandedObjectID::ObjectTypeAttribute;
     ObjectTypeAttr = attr;
   }
   NodeAttributes::NodeAttributes(VariableTypeAttributes attr)
   {
-    Header.TypeID = FourByteNodeID(NodeAttributesIds::VariableTypeAttr, 0);
+    Header.TypeID = ExpandedObjectID::VariableTypeAttribute;
     VariableTypeAttr = attr;
   }
   NodeAttributes::NodeAttributes(ReferenceTypeAttributes attr)
   {
-    Header.TypeID = FourByteNodeID(NodeAttributesIds::ReferenceTypeAttr, 0);
+    Header.TypeID = ExpandedObjectID::ReferenceTypeAttribute;
     ReferenceTypeAttr = attr;
   }
   NodeAttributes::NodeAttributes(DataTypeAttributes attr)
   {
-    Header.TypeID = FourByteNodeID(NodeAttributesIds::DataTypeAttr, 0);
+    Header.TypeID = ExpandedObjectID::DataTypeAttribute;
     DataTypeAttr = attr;
   }
   NodeAttributes::NodeAttributes(ViewAttributes attr)
   {
-    Header.TypeID = FourByteNodeID(NodeAttributesIds::ViewAttr, 0);
+    Header.TypeID = ExpandedObjectID::ViewAttribute;
     ViewAttr = attr;
+  }
+
+  AddNodesRequest::AddNodesRequest()
+    : TypeID(ADD_NODES_REQUEST)
+  {
+  }
+
+  AddNodesResponse::AddNodesResponse()
+    : TypeID(ADD_NODES_RESPONSE)
+  {
+  }
+
+ AddReferencesRequest::AddReferencesRequest()
+    : TypeID(ADD_NODES_REQUEST)
+  {
+  }
+
+  AddReferencesResponse::AddReferencesResponse()
+    : TypeID(ADD_NODES_RESPONSE)
+  {
   }
 
 
@@ -738,35 +759,35 @@ namespace OpcUa
     {
       size_t total = 0;
       total += RawSize(val.Header);
-      if (val.Header.TypeID == FourByteNodeID(NodeAttributesIds::ObjectAttr, 0))
+      if (val.Header.TypeID == ExpandedObjectID::ObjectAttribute)
       {
         total += RawSize(val.ObjectAttr);
       }
-      else if (val.Header.TypeID == FourByteNodeID(NodeAttributesIds::VariableAttr, 0))
+      else if (val.Header.TypeID == ExpandedObjectID::VariableAttribute)
       {
         total += RawSize(val.VariableAttr);
       }
-      else if (val.Header.TypeID == FourByteNodeID(NodeAttributesIds::MethodAttr, 0))
+      else if (val.Header.TypeID == ExpandedObjectID::MethodAttribute)
       {
         total += RawSize(val.MethodAttr);
       }
-      else if (val.Header.TypeID == FourByteNodeID(NodeAttributesIds::ObjectTypeAttr, 0))
+      else if (val.Header.TypeID == ExpandedObjectID::ObjectTypeAttribute)
       {
         total += RawSize(val.ObjectTypeAttr);
       }
-      else if (val.Header.TypeID == FourByteNodeID(NodeAttributesIds::VariableTypeAttr, 0))
+      else if (val.Header.TypeID == ExpandedObjectID::VariableTypeAttribute)
       {
         total += RawSize(val.VariableTypeAttr);
       }
-      else if (val.Header.TypeID == FourByteNodeID(NodeAttributesIds::ReferenceTypeAttr, 0))
+      else if (val.Header.TypeID == ExpandedObjectID::ReferenceTypeAttribute)
       {
         total += RawSize(val.ReferenceTypeAttr);
       }
-      else if (val.Header.TypeID == FourByteNodeID(NodeAttributesIds::DataTypeAttr, 0))
+      else if (val.Header.TypeID == ExpandedObjectID::DataTypeAttribute)
       {
         total += RawSize(val.DataTypeAttr);
       }
-      else if (val.Header.TypeID == FourByteNodeID(NodeAttributesIds::ViewAttr, 0))
+      else if (val.Header.TypeID == ExpandedObjectID::ViewAttribute)
       {
         total += RawSize(val.ViewAttr);
       }
@@ -777,35 +798,35 @@ namespace OpcUa
     void DataSerializer::Serialize<NodeAttributes>(const NodeAttributes& val)
     {
       *this << val.Header;
-      if (val.Header.TypeID == FourByteNodeID(NodeAttributesIds::ObjectAttr, 0))
+      if (val.Header.TypeID == ExpandedObjectID::ObjectAttribute)
       {
         *this << val.ObjectAttr;
       }
-      else if (val.Header.TypeID == FourByteNodeID(NodeAttributesIds::VariableAttr, 0))
+      else if (val.Header.TypeID == ExpandedObjectID::VariableAttribute)
       {
         *this << val.VariableAttr;
       }
-      else if (val.Header.TypeID == FourByteNodeID(NodeAttributesIds::MethodAttr, 0))
+      else if (val.Header.TypeID == ExpandedObjectID::MethodAttribute)
       {
         *this << val.MethodAttr;
       }
-      else if (val.Header.TypeID == FourByteNodeID(NodeAttributesIds::ObjectTypeAttr, 0))
+      else if (val.Header.TypeID == ExpandedObjectID::ObjectTypeAttribute)
       {
         *this << val.ObjectTypeAttr;
       }
-      else if (val.Header.TypeID == FourByteNodeID(NodeAttributesIds::VariableTypeAttr, 0))
+      else if (val.Header.TypeID == ExpandedObjectID::VariableTypeAttribute)
       {
         *this << val.VariableTypeAttr;
       }
-      else if (val.Header.TypeID == FourByteNodeID(NodeAttributesIds::ReferenceTypeAttr, 0))
+      else if (val.Header.TypeID == ExpandedObjectID::ReferenceTypeAttribute)
       {
         *this << val.ReferenceTypeAttr;
       }
-      else if (val.Header.TypeID == FourByteNodeID(NodeAttributesIds::DataTypeAttr, 0))
+      else if (val.Header.TypeID == ExpandedObjectID::DataTypeAttribute)
       {
         *this << val.DataTypeAttr;
       }
-      else if (val.Header.TypeID == FourByteNodeID(NodeAttributesIds::ViewAttr, 0))
+      else if (val.Header.TypeID == ExpandedObjectID::ViewAttribute)
       {
         *this << val.ViewAttr;
       }
@@ -815,35 +836,35 @@ namespace OpcUa
     void DataDeserializer::Deserialize<NodeAttributes>(NodeAttributes& val)
     {
       *this >> val.Header;
-      if (val.Header.TypeID == FourByteNodeID(NodeAttributesIds::ObjectAttr, 0))
+      if (val.Header.TypeID == ExpandedObjectID::ObjectAttribute)
       {
         *this >> val.ObjectAttr;
       }
-      else if (val.Header.TypeID == FourByteNodeID(NodeAttributesIds::VariableAttr, 0))
+      else if (val.Header.TypeID == ExpandedObjectID::VariableAttribute)
       {
         *this >> val.VariableAttr;
       }
-      else if (val.Header.TypeID == FourByteNodeID(NodeAttributesIds::MethodAttr, 0))
+      else if (val.Header.TypeID == ExpandedObjectID::MethodAttribute)
       {
         *this >> val.MethodAttr;
       }
-      else if (val.Header.TypeID == FourByteNodeID(NodeAttributesIds::ObjectTypeAttr, 0))
+      else if (val.Header.TypeID == ExpandedObjectID::ObjectTypeAttribute)
       {
         *this >> val.ObjectTypeAttr;
       }
-      else if (val.Header.TypeID == FourByteNodeID(NodeAttributesIds::VariableTypeAttr, 0))
+      else if (val.Header.TypeID == ExpandedObjectID::VariableTypeAttribute)
       {
         *this >> val.VariableTypeAttr;
       }
-      else if (val.Header.TypeID == FourByteNodeID(NodeAttributesIds::ReferenceTypeAttr, 0))
+      else if (val.Header.TypeID == ExpandedObjectID::ReferenceTypeAttribute)
       {
         *this >> val.ReferenceTypeAttr;
       }
-      else if (val.Header.TypeID == FourByteNodeID(NodeAttributesIds::DataTypeAttr, 0))
+      else if (val.Header.TypeID == ExpandedObjectID::DataTypeAttribute)
       {
         *this >> val.DataTypeAttr;
       }
-      else if (val.Header.TypeID == FourByteNodeID(NodeAttributesIds::ViewAttr, 0))
+      else if (val.Header.TypeID == ExpandedObjectID::ViewAttribute)
       {
         *this >> val.ViewAttr;
       }
@@ -885,6 +906,12 @@ namespace OpcUa
       *this >> resp.TypeDefinition;
     }
 
+    template<>
+    std::size_t RawSize(const std::vector<AddNodesItem>& ack)
+    {
+      return RawSizeContainer(ack);
+    }
+
 
     template<>
     void DataDeserializer::Deserialize<std::vector<AddNodesItem>>(std::vector<AddNodesItem>& ack)
@@ -898,26 +925,46 @@ namespace OpcUa
       SerializeContainer(*this, ack);
     }
 
+    template<>
+    std::size_t RawSize<AddNodesParameters>(const AddNodesParameters& val)
+    {
+      return RawSize(val.NodesToAdd);
+    }
+
+    template<>
+    void DataSerializer::Serialize<AddNodesParameters>(const AddNodesParameters& val)
+    {
+      *this << val.NodesToAdd;
+    }
+
+    template<>
+    void DataDeserializer::Deserialize<AddNodesParameters>(AddNodesParameters& resp)
+    {
+      *this >> resp.NodesToAdd;
+    }
+
 
 
     template<>
     std::size_t RawSize<AddNodesRequest>(const AddNodesRequest& resp)
     {
-      return RawSize(resp.Header) + RawSizeContainer(resp.NodesToAdd);
+      return RawSize(resp.TypeID) + RawSize(resp.Header) + RawSize(resp.Parameters);
     }
 
     template<>
     void DataSerializer::Serialize<AddNodesRequest>(const AddNodesRequest& resp)
     {
+      *this << resp.TypeID;
       *this << resp.Header;
-      *this << resp.NodesToAdd;
+      *this << resp.Parameters;
     }
 
     template<>
     void DataDeserializer::Deserialize<AddNodesRequest>(AddNodesRequest& resp)
     {
+      *this >> resp.TypeID;
       *this >> resp.Header;
-      *this >> resp.NodesToAdd;
+      *this >> resp.Parameters;
     }
 
     template<>
@@ -961,12 +1008,13 @@ namespace OpcUa
     template<>
     std::size_t RawSize<AddNodesResponse>(const AddNodesResponse& resp)
     {
-      return RawSize(resp.Header) + RawSizeContainer(resp.results) + RawSize(resp.Diagnostics);
+      return RawSize(resp.TypeID) + RawSize(resp.Header) + RawSizeContainer(resp.results) + RawSize(resp.Diagnostics);
     }
 
     template<>
     void DataSerializer::Serialize<AddNodesResponse>(const AddNodesResponse& resp)
     {
+      *this << resp.TypeID;
       *this << resp.Header;
       *this << resp.results;
       *this << resp.Diagnostics;
@@ -975,6 +1023,7 @@ namespace OpcUa
     template<>
     void DataDeserializer::Deserialize<AddNodesResponse>(AddNodesResponse& resp)
     {
+      *this >> resp.TypeID;
       *this >> resp.Header;
       *this >> resp.results;
       *this >> resp.Diagnostics;
@@ -991,12 +1040,13 @@ namespace OpcUa
     template<>
     std::size_t RawSize<AddReferencesResponse>(const AddReferencesResponse& resp)
     {
-      return RawSize(resp.Header) + RawSizeContainer(resp.Results) + RawSize(resp.Diagnostics);
+      return RawSize(resp.TypeID) + RawSize(resp.Header) + RawSizeContainer(resp.Results) + RawSize(resp.Diagnostics);
     }
 
     template<>
     void DataSerializer::Serialize<AddReferencesResponse>(const AddReferencesResponse& resp)
     {
+      *this << resp.TypeID;
       *this << resp.Header;
       *this << resp.Results;
       *this << resp.Diagnostics;
@@ -1005,6 +1055,7 @@ namespace OpcUa
     template<>
     void DataDeserializer::Deserialize<AddReferencesResponse>(AddReferencesResponse& resp)
     {
+      *this >> resp.TypeID;
       *this >> resp.Header;
       *this >> resp.Results;
       *this >> resp.Diagnostics;
@@ -1064,26 +1115,50 @@ namespace OpcUa
       SerializeContainer(*this, ack);
     }
 
+
+     template<>
+    std::size_t RawSize<AddReferencesParameters>(const AddReferencesParameters& val)
+    {
+      return RawSizeContainer(val.ReferencesToAdd);
+    }
+
+    template<>
+    void DataSerializer::Serialize<AddReferencesParameters>(const AddReferencesParameters& val)
+    {
+      *this << val.ReferencesToAdd;
+    }
+
+    template<>
+    void DataDeserializer::Deserialize<AddReferencesParameters>(AddReferencesParameters& val)
+    {
+      *this >> val.ReferencesToAdd;
+    }
+
+
+
+
      template<>
     std::size_t RawSize<AddReferencesRequest>(const AddReferencesRequest& val)
     {
-      return RawSize(val.Header) + 
-        RawSizeContainer(val.ReferencesToAdd)
+      return RawSize(val.TypeID) +  RawSize(val.Header) + 
+        RawSize(val.Parameters)
         ;
     }
 
     template<>
     void DataSerializer::Serialize<AddReferencesRequest>(const AddReferencesRequest& val)
     {
+      *this << val.TypeID;
       *this << val.Header;
-      *this << val.ReferencesToAdd;
+      *this << val.Parameters;
     }
 
     template<>
     void DataDeserializer::Deserialize<AddReferencesRequest>(AddReferencesRequest& val)
     {
+      *this >> val.TypeID;
       *this >> val.Header;
-      *this >> val.ReferencesToAdd;
+      *this >> val.Parameters;
     }
 
 
