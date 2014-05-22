@@ -64,7 +64,8 @@ libopcuabinary_la_SOURCES = \
   src/binary_view.cpp \
   src/monitored_items.cpp \
   src/nodeid.cpp \
-  src/subscriptions.cpp
+  src/subscriptions.cpp \
+  src/types.cpp
 
 
 libopcuabinary_la_CPPFLAGS = -I$(top_srcdir)/include -I$(top_srcdir)/../../libopccore/include $(GCOV_FLAGS)
