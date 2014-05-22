@@ -126,8 +126,7 @@ am_libopcuabinary_la_OBJECTS = libopcuabinary_la-binary_variant.lo \
 	libopcuabinary_la-binary_session.lo \
 	libopcuabinary_la-binary_view.lo \
 	libopcuabinary_la-monitored_items.lo \
-	libopcuabinary_la-nodeid.lo libopcuabinary_la-subscriptions.lo \
-	libopcuabinary_la-types.lo
+	libopcuabinary_la-nodeid.lo libopcuabinary_la-subscriptions.lo
 libopcuabinary_la_OBJECTS = $(am_libopcuabinary_la_OBJECTS)
 libopcuabinary_la_LINK = $(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(AM_CXXFLAGS) \
@@ -379,8 +378,7 @@ libopcuabinary_la_SOURCES = \
   src/binary_view.cpp \
   src/monitored_items.cpp \
   src/nodeid.cpp \
-  src/subscriptions.cpp \
-  src/types.cpp
+  src/subscriptions.cpp
 
 libopcuabinary_la_CPPFLAGS = -I$(top_srcdir)/include -I$(top_srcdir)/../../libopccore/include $(GCOV_FLAGS)
 libopcuabinary_la_LDFLAGS = $(GCOV_LIBS)
@@ -532,7 +530,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libopcuabinary_la-monitored_items.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libopcuabinary_la-nodeid.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libopcuabinary_la-subscriptions.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libopcuabinary_la-types.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/opc_ua_binary_test-binary_deserialize.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/opc_ua_binary_test-binary_serialize.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/opc_ua_binary_test-binary_serialize_attribute.Po@am__quote@
@@ -652,13 +649,6 @@ libopcuabinary_la-subscriptions.lo: src/subscriptions.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='src/subscriptions.cpp' object='libopcuabinary_la-subscriptions.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(LIBTOOL)  --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libopcuabinary_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libopcuabinary_la-subscriptions.lo `test -f 'src/subscriptions.cpp' || echo '$(srcdir)/'`src/subscriptions.cpp
-
-libopcuabinary_la-types.lo: src/types.cpp
-@am__fastdepCXX_TRUE@	$(LIBTOOL)  --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libopcuabinary_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libopcuabinary_la-types.lo -MD -MP -MF $(DEPDIR)/libopcuabinary_la-types.Tpo -c -o libopcuabinary_la-types.lo `test -f 'src/types.cpp' || echo '$(srcdir)/'`src/types.cpp
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/libopcuabinary_la-types.Tpo $(DEPDIR)/libopcuabinary_la-types.Plo
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='src/types.cpp' object='libopcuabinary_la-types.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(LIBTOOL)  --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libopcuabinary_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libopcuabinary_la-types.lo `test -f 'src/types.cpp' || echo '$(srcdir)/'`src/types.cpp
 
 opc_ua_binary_test-binary_deserialize.o: tests/binary_deserialize.cpp
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(opc_ua_binary_test_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT opc_ua_binary_test-binary_deserialize.o -MD -MP -MF $(DEPDIR)/opc_ua_binary_test-binary_deserialize.Tpo -c -o opc_ua_binary_test-binary_deserialize.o `test -f 'tests/binary_deserialize.cpp' || echo '$(srcdir)/'`tests/binary_deserialize.cpp

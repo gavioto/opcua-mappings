@@ -51,8 +51,14 @@ TEST_F(MonitoredItemsSerialization, MonitoredItemsData)
     0,0,0,0  // Diagnostics Count
   };
 
-  ASSERT_EQ(expectedData, GetChannel().SerializedData) << PrintData(GetChannel().SerializedData) << std::endl << PrintData(expectedData);
-  ASSERT_EQ(expectedData.size(), RawSize(data));
+  EXPECT_EQ(expectedData, GetChannel().SerializedData) <<
+      "Expected:" << std::endl <<
+      PrintData(expectedData) << std::endl <<
+      "Serialized:" << std::endl <<
+      PrintData(GetChannel().SerializedData) <<
+      std::endl;
+
+  EXPECT_EQ(expectedData.size(), RawSize(data));
 }
 
 TEST_F(MonitoredItemsSerialization, CreateMonitoredItemsResponse)

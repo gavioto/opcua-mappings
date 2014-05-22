@@ -714,7 +714,7 @@ TEST_F(SubscriptionSerialization, PublishResponse_Empty)
     0,
 
     // NotificationData
-    1,0,0,0, // SequenceID
+    0,0,0,0, // SequenceID
     2,0,0,0,0,0,0,0, // PublishTime
     // Data vector
     0,0,0,0, //Count
