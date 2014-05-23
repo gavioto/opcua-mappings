@@ -36,23 +36,37 @@ TEST_F(MonitoredItemsSerialization, MonitoredItemsData)
   using namespace OpcUa;
   using namespace OpcUa::Binary;
 
+  CreateMonitoredItemsResult monitoringResult;
+  monitoringResult.Status = StatusCode::BadNotImplemented;
+  monitoringResult.MonitoredItemID = 1;
+  monitoringResult.RevisedSamplingInterval = 1200000;
+  monitoringResult.RevizedQueueSize = 3;
+  //monitoringResult.ExtensionObjectHeader FilterResult;
+
   MonitoredItemsData data;
+  data.Results.push_back(monitoringResult);
 
   GetStream() << data << flush;
 
   const std::vector<char> expectedData = {
     1,0,0,0,         // Results count
     0,0,(char)0x44,(char)0x80,   // StatusCode
-    0,0,0,0,         // MonitoredItemID
-    0,0,0,0,0,0,0,0, // RevisedSamplingInterval
-    0,0,0,0,         // RevizedQueueSize
+    1,0,0,0,         // MonitoredItemID
+    0,0,0,0,(char)0x80,(char)0x4f,(char)0x32,(char)0x41, // RevisedSamplingInterval
+    3,0,0,0,         // RevizedQueueSize
     0,0,0,           // FilterResult (empty Extension object)
 
     0,0,0,0  // Diagnostics Count
   };
 
-  ASSERT_EQ(expectedData, GetChannel().SerializedData) << PrintData(GetChannel().SerializedData) << std::endl << PrintData(expectedData);
-  ASSERT_EQ(expectedData.size(), RawSize(data));
+  EXPECT_EQ(expectedData, GetChannel().SerializedData) <<
+      "Expected:" << std::endl <<
+      PrintData(expectedData) << std::endl <<
+      "Serialized:" << std::endl <<
+      PrintData(GetChannel().SerializedData) <<
+      std::endl;
+
+  EXPECT_EQ(expectedData.size(), RawSize(data));
 }
 
 TEST_F(MonitoredItemsSerialization, CreateMonitoredItemsResponse)
@@ -61,6 +75,16 @@ TEST_F(MonitoredItemsSerialization, CreateMonitoredItemsResponse)
   using namespace OpcUa::Binary;
 
   CreateMonitoredItemsResponse response;
+
+  CreateMonitoredItemsResult monitoringResult;
+  monitoringResult.Status = StatusCode::BadNotImplemented;
+  monitoringResult.MonitoredItemID = 1;
+  monitoringResult.RevisedSamplingInterval = 1200000;
+  monitoringResult.RevizedQueueSize = 3;
+  //monitoringResult.ExtensionObjectHeader FilterResult;
+
+  response.Data.Results.push_back(monitoringResult);
+
 
   ASSERT_EQ(response.TypeID.Encoding, EV_FOUR_BYTE);
   ASSERT_EQ(response.TypeID.FourByteData.NamespaceIndex, 0);
@@ -77,15 +101,17 @@ TEST_F(MonitoredItemsSerialization, CreateMonitoredItemsResponse)
 
     1,0,0,0,         // Results count
     0,0,(char)0x44,(char)0x80,   // StatusCode
-    0,0,0,0,         // MonitoredItemID
-    0,0,0,0,0,0,0,0, // RevisedSamplingInterval
-    0,0,0,0,         // RevizedQueueSize
+    1,0,0,0,         // MonitoredItemID
+    0,0,0,0,(char)0x80,(char)0x4f,(char)0x32,(char)0x41, // RevisedSamplingInterval
+    3,0,0,0,         // RevizedQueueSize
     0,0,0,           // FilterResult (empty Extension object)
 
     0,0,0,0  // Diagnostics Count
   };
 
-  ASSERT_EQ(expectedData, GetChannel().SerializedData) << PrintData(GetChannel().SerializedData) << std::endl << PrintData(expectedData);
+  ASSERT_EQ(expectedData, GetChannel().SerializedData) <<
+      "Expected: " << std::endl << PrintData(expectedData) << std::endl <<
+      "Serialized: " << std::endl << PrintData(GetChannel().SerializedData) << std::endl;
   ASSERT_EQ(expectedData.size(), RawSize(response));
 }
 
