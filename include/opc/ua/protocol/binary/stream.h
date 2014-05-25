@@ -198,6 +198,17 @@ namespace OpcUa
       }
     };
 
+    template <typename InputChannelType, typename OutputChannelType>
+    class InputOutputStream : public IStream<InputChannelType>, public OStream<OutputChannelType>
+    {
+    public:
+      InputOutputStream(std::shared_ptr<InputChannelType> input, std::shared_ptr<OutputChannelType> output)
+        : IStream<InputChannelType>(input)
+        , OStream<OutputChannelType>(output)
+      {
+      }
+    };
+
   } // namespace Binary
 } // namespace OpcUa
 

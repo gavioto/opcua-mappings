@@ -125,6 +125,7 @@ am_libopcuabinary_la_OBJECTS = libopcuabinary_la-binary_variant.lo \
 	libopcuabinary_la-binary_raw_size.lo \
 	libopcuabinary_la-binary_session.lo \
 	libopcuabinary_la-binary_view.lo \
+	libopcuabinary_la-input_from_buffer.lo \
 	libopcuabinary_la-monitored_items.lo \
 	libopcuabinary_la-nodeid.lo libopcuabinary_la-subscriptions.lo \
 	libopcuabinary_la-types.lo
@@ -147,6 +148,7 @@ am_opc_ua_binary_test_OBJECTS =  \
 	opc_ua_binary_test-message_id.$(OBJEXT) \
 	opc_ua_binary_test-node_id.$(OBJEXT) \
 	opc_ua_binary_test-reference_id.$(OBJEXT) \
+	opc_ua_binary_test-test_input_from_buffer.$(OBJEXT) \
 	opc_ua_binary_test-utils.$(OBJEXT)
 opc_ua_binary_test_OBJECTS = $(am_opc_ua_binary_test_OBJECTS)
 opc_ua_binary_test_DEPENDENCIES = libopcuabinary.la
@@ -378,6 +380,7 @@ libopcuabinary_la_SOURCES = \
   src/binary_raw_size.cpp \
   src/binary_session.cpp \
   src/binary_view.cpp \
+  src/input_from_buffer.cpp \
   src/monitored_items.cpp \
   src/nodeid.cpp \
   src/subscriptions.cpp \
@@ -400,6 +403,7 @@ opc_ua_binary_test_SOURCES = \
  tests/message_id.cpp \
  tests/node_id.cpp \
  tests/reference_id.cpp \
+ tests/test_input_from_buffer.cpp \
  tests/utils.cpp
 
 opc_ua_binary_test_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/include -I$(top_srcdir)/../../libopccore/include $(GTEST_INCLUDES) $(GMOCK_INCLUDES) $(GCOV_FLAGS)
@@ -530,6 +534,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libopcuabinary_la-binary_stream.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libopcuabinary_la-binary_variant.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libopcuabinary_la-binary_view.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libopcuabinary_la-input_from_buffer.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libopcuabinary_la-monitored_items.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libopcuabinary_la-nodeid.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libopcuabinary_la-subscriptions.Plo@am__quote@
@@ -547,6 +552,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/opc_ua_binary_test-message_id.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/opc_ua_binary_test-node_id.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/opc_ua_binary_test-reference_id.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/opc_ua_binary_test-test_input_from_buffer.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/opc_ua_binary_test-utils.Po@am__quote@
 
 .cpp.o:
@@ -632,6 +638,13 @@ libopcuabinary_la-binary_view.lo: src/binary_view.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='src/binary_view.cpp' object='libopcuabinary_la-binary_view.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(LIBTOOL)  --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libopcuabinary_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libopcuabinary_la-binary_view.lo `test -f 'src/binary_view.cpp' || echo '$(srcdir)/'`src/binary_view.cpp
+
+libopcuabinary_la-input_from_buffer.lo: src/input_from_buffer.cpp
+@am__fastdepCXX_TRUE@	$(LIBTOOL)  --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libopcuabinary_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libopcuabinary_la-input_from_buffer.lo -MD -MP -MF $(DEPDIR)/libopcuabinary_la-input_from_buffer.Tpo -c -o libopcuabinary_la-input_from_buffer.lo `test -f 'src/input_from_buffer.cpp' || echo '$(srcdir)/'`src/input_from_buffer.cpp
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/libopcuabinary_la-input_from_buffer.Tpo $(DEPDIR)/libopcuabinary_la-input_from_buffer.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='src/input_from_buffer.cpp' object='libopcuabinary_la-input_from_buffer.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL)  --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libopcuabinary_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libopcuabinary_la-input_from_buffer.lo `test -f 'src/input_from_buffer.cpp' || echo '$(srcdir)/'`src/input_from_buffer.cpp
 
 libopcuabinary_la-monitored_items.lo: src/monitored_items.cpp
 @am__fastdepCXX_TRUE@	$(LIBTOOL)  --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libopcuabinary_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libopcuabinary_la-monitored_items.lo -MD -MP -MF $(DEPDIR)/libopcuabinary_la-monitored_items.Tpo -c -o libopcuabinary_la-monitored_items.lo `test -f 'src/monitored_items.cpp' || echo '$(srcdir)/'`src/monitored_items.cpp
@@ -842,6 +855,20 @@ opc_ua_binary_test-reference_id.obj: tests/reference_id.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='tests/reference_id.cpp' object='opc_ua_binary_test-reference_id.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(opc_ua_binary_test_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o opc_ua_binary_test-reference_id.obj `if test -f 'tests/reference_id.cpp'; then $(CYGPATH_W) 'tests/reference_id.cpp'; else $(CYGPATH_W) '$(srcdir)/tests/reference_id.cpp'; fi`
+
+opc_ua_binary_test-test_input_from_buffer.o: tests/test_input_from_buffer.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(opc_ua_binary_test_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT opc_ua_binary_test-test_input_from_buffer.o -MD -MP -MF $(DEPDIR)/opc_ua_binary_test-test_input_from_buffer.Tpo -c -o opc_ua_binary_test-test_input_from_buffer.o `test -f 'tests/test_input_from_buffer.cpp' || echo '$(srcdir)/'`tests/test_input_from_buffer.cpp
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/opc_ua_binary_test-test_input_from_buffer.Tpo $(DEPDIR)/opc_ua_binary_test-test_input_from_buffer.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='tests/test_input_from_buffer.cpp' object='opc_ua_binary_test-test_input_from_buffer.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(opc_ua_binary_test_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o opc_ua_binary_test-test_input_from_buffer.o `test -f 'tests/test_input_from_buffer.cpp' || echo '$(srcdir)/'`tests/test_input_from_buffer.cpp
+
+opc_ua_binary_test-test_input_from_buffer.obj: tests/test_input_from_buffer.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(opc_ua_binary_test_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT opc_ua_binary_test-test_input_from_buffer.obj -MD -MP -MF $(DEPDIR)/opc_ua_binary_test-test_input_from_buffer.Tpo -c -o opc_ua_binary_test-test_input_from_buffer.obj `if test -f 'tests/test_input_from_buffer.cpp'; then $(CYGPATH_W) 'tests/test_input_from_buffer.cpp'; else $(CYGPATH_W) '$(srcdir)/tests/test_input_from_buffer.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/opc_ua_binary_test-test_input_from_buffer.Tpo $(DEPDIR)/opc_ua_binary_test-test_input_from_buffer.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='tests/test_input_from_buffer.cpp' object='opc_ua_binary_test-test_input_from_buffer.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(opc_ua_binary_test_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o opc_ua_binary_test-test_input_from_buffer.obj `if test -f 'tests/test_input_from_buffer.cpp'; then $(CYGPATH_W) 'tests/test_input_from_buffer.cpp'; else $(CYGPATH_W) '$(srcdir)/tests/test_input_from_buffer.cpp'; fi`
 
 opc_ua_binary_test-utils.o: tests/utils.cpp
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(opc_ua_binary_test_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT opc_ua_binary_test-utils.o -MD -MP -MF $(DEPDIR)/opc_ua_binary_test-utils.Tpo -c -o opc_ua_binary_test-utils.o `test -f 'tests/utils.cpp' || echo '$(srcdir)/'`tests/utils.cpp
