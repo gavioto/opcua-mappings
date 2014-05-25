@@ -78,3 +78,45 @@ TEST_F(InputFromBuffer, ReadLargeBuffer)
   ASSERT_EQ(revceivedSize, SourceBuffer.size());
   ASSERT_EQ(targetBuf, expectedBuf);
 }
+
+TEST_F(InputFromBuffer, ReadWithLittlePortions)
+{
+  OpcUa::InputFromBuffer input(&SourceBuffer[0], SourceBuffer.size());
+  size_t revceivedSize = 0;
+
+  // Read first three bytes.
+  std::vector<char> targetBuf1(3, 11);
+  ASSERT_NO_THROW(revceivedSize = input.Receive(&targetBuf1[0], targetBuf1.size()));
+  ASSERT_EQ(revceivedSize, 3);
+  const std::vector<char> expectedBuf1{0,1,2};
+  ASSERT_EQ(targetBuf1, expectedBuf1);
+
+
+  // Read second three bytes.
+  std::vector<char> targetBuf2(3, 11);
+  ASSERT_NO_THROW(revceivedSize = input.Receive(&targetBuf2[0], targetBuf2.size()));
+  ASSERT_EQ(revceivedSize, 3);
+  const std::vector<char> expectedBuf2{3,4,5};
+  ASSERT_EQ(targetBuf2, expectedBuf2);
+
+  // Read third three bytes.
+  std::vector<char> targetBuf3(3, 11);
+  ASSERT_NO_THROW(revceivedSize = input.Receive(&targetBuf3[0], targetBuf3.size()));
+  ASSERT_EQ(revceivedSize, 3);
+  const std::vector<char> expectedBuf3{6,7,8};
+  ASSERT_EQ(targetBuf3, expectedBuf3);
+
+  // Read forth three bytes.
+  std::vector<char> targetBuf4(3, 11);
+  ASSERT_NO_THROW(revceivedSize = input.Receive(&targetBuf4[0], targetBuf4.size()));
+  ASSERT_EQ(revceivedSize, 1);
+  const std::vector<char> expectedBuf4{9, 11, 11};
+  ASSERT_EQ(targetBuf4, expectedBuf4);
+
+  // Read fifth three bytes.
+  std::vector<char> targetBuf5(3, 11);
+  ASSERT_NO_THROW(revceivedSize = input.Receive(&targetBuf5[0], targetBuf5.size()));
+  ASSERT_EQ(revceivedSize, 0);
+  const std::vector<char> expectedBuf5{11,11,11};
+  ASSERT_EQ(targetBuf5, expectedBuf5);
+}

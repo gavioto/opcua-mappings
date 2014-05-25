@@ -43,6 +43,7 @@ namespace OpcUa
     const std::size_t sizeToRead = std::min(Size, size);
     memcpy(data, Buffer, sizeToRead);
     Size -= sizeToRead;
+    Buffer += sizeToRead;
     return sizeToRead;
   }
 
