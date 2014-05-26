@@ -18,6 +18,7 @@
 #include <iostream>
 #include <stdexcept>
 
+
 namespace
 {
 
@@ -578,7 +579,10 @@ namespace OpcUa
       }
       else
       {
-        throw std::logic_error("Unknown message type received.");
+        std::string msg("Cannot deserialize Unknown message type [");
+        msg += std::to_string(data[0]) + ", " + std::to_string(data[1]) + ", " + std::to_string(data[2]);
+        msg += "] received.";
+        throw std::logic_error(msg);
       }
     }
 

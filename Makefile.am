@@ -62,6 +62,7 @@ libopcuabinary_la_SOURCES = \
   src/binary_raw_size.cpp \
   src/binary_session.cpp \
   src/binary_view.cpp \
+  src/input_from_buffer.cpp \
   src/monitored_items.cpp \
   src/nodeid.cpp \
   src/subscriptions.cpp \
@@ -90,6 +91,7 @@ opc_ua_binary_test_SOURCES =  \
  tests/message_id.cpp \
  tests/node_id.cpp \
  tests/reference_id.cpp \
+ tests/test_input_from_buffer.cpp \
  tests/utils.cpp
 
 opc_ua_binary_test_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/include -I$(top_srcdir)/../../libopccore/include $(GTEST_INCLUDES) $(GMOCK_INCLUDES) $(GCOV_FLAGS)
