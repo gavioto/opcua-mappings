@@ -104,6 +104,12 @@ namespace OpcUa
     {
     public:
       explicit OStream(std::shared_ptr<OutputChannelType> channel)
+        : Out(*channel)
+        , Holder(channel)
+      {
+      }
+
+      explicit OStream(OutputChannelType& channel)
         : Out(channel)
       {
       }
@@ -126,11 +132,12 @@ namespace OpcUa
 
       void Flush()
       {
-        Serializer.Flush(*Out);
+        Serializer.Flush(Out);
       }
 
     private:
-      std::shared_ptr<OutputChannelType> Out;
+      OutputChannelType& Out;
+      std::shared_ptr<OutputChannelType> Holder;
       DataSerializer Serializer;
     };
 
@@ -159,6 +166,13 @@ namespace OpcUa
     {
     public:
       explicit IStream(std::shared_ptr<InputChannelType> channel)
+        : In(*channel)
+        , Holder(channel)
+        , Deserializer(*this)
+      {
+      }
+
+      explicit IStream(InputChannelType& channel)
         : In(channel)
         , Deserializer(*this)
       {
@@ -178,11 +192,12 @@ namespace OpcUa
     private:
       virtual size_t Read(char* buffer, size_t size)
       {
-        return In->Receive(buffer, size);
+        return In.Receive(buffer, size);
       }
 
     private:
-      std::shared_ptr<InputChannelType> In;
+      InputChannelType& In;
+      std::shared_ptr<InputChannelType> Holder;
       DataDeserializer Deserializer;
     };
 

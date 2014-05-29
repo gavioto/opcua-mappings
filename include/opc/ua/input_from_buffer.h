@@ -33,6 +33,8 @@ namespace OpcUa
 
     virtual int WaitForData(float second){return 1;}
 
+    size_t GetRemainSize() const;
+
   private:
     const char* Buffer;
     std::size_t Size;

@@ -47,4 +47,9 @@ namespace OpcUa
     return sizeToRead;
   }
 
+  size_t InputFromBuffer::GetRemainSize() const
+  {
+    return Size;
+  }
+
 }
